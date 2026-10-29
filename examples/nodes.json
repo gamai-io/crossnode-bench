@@ -1,0 +1,7 @@
+{
+  "nodes": [
+    {"type": "local", "name": "node-a"},
+    {"type": "http", "name": "node-b", "url": "http://127.0.0.1:7100/rpc", "token_env": "NODE_B_TOKEN"},
+    {"type": "http", "name": "node-c", "url": "http://127.0.0.1:7101/rpc", "token_env": "NODE_C_TOKEN"}
+  ]
+}
