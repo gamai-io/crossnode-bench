@@ -1,5 +1,7 @@
 [![CI](https://github.com/gamai-io/crossnode-bench/actions/workflows/ci.yml/badge.svg)](https://github.com/gamai-io/crossnode-bench/actions/workflows/ci.yml)
 
+> **Live evidence dashboard:** https://gamai-io.github.io/demo/
+
 # CrossNode-Bench
 
 **Most agent benchmarks score the final text. CrossNode-Bench scores the claim against ground truth on each node.**
