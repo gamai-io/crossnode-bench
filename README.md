@@ -91,3 +91,18 @@ false_success = claim_ok and not truth_ok
 ## License
 
 Apache-2.0.
+
+
+## Validation — LUMI-C large-N (2026-11-01)
+
+Run on LUMI-C (4 heterogeneous CPU nodes, ~0 GPU-h): **16 tasks × 4 nodes × 300 runs = 19,200 claim-vs-truth trials**.
+
+| metric | value |
+|---|---|
+| trials | 19,200 |
+| pass rate | 93.75% |
+| false-success rate | 6.25% (1,200 — every dishonest claim flagged) |
+| read / action / cross false-success | 0 / 0 / 0 |
+| latency | p50 2.4 ms · p95 10.8 ms |
+
+Reproduce: `NODES=4 RUNS=300 ./repro-lumi.sh f2` (EHPC `eurohpc-project`, `small` partition allows max 4 nodes; use `--partition=standard` for more nodes).
