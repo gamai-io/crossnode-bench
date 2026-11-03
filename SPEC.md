@@ -1,6 +1,7 @@
-# Claim-vs-Truth Protocol — Metric Specification v1.1 (2026-11-03)
+# Claim-vs-Truth Protocol — Metric Specification v1.2 (2026-11-03)
 
 Status: public draft. License: Apache-2.0 (same as CrossNode-Bench).
+Changelog v1.2: cluster bootstrap over G clusters (not records); system-of-record truth hierarchy; `sacct` excluded as effect proof; artifact conformance gap stated (hash-chain/Merkle required by §7, absent in the 12,344-record artifact); GitHub canonical source restored.
 Changelog v1.1: fixed power example (768, not 620); explicit denominators; 9-cell verdict table; demo vs field labels; guard/probe/task latency separated; §10 status (what is NOT built).
 
 ## 1. Terms
@@ -8,6 +9,7 @@ Changelog v1.1: fixed power example (768, not 620); explicit denominators; 9-cel
 - **Claim**: the verbatim structured output emitted by the agent: `{task_id, target, action, expected_effect, claimed_status ∈ {success, failure, partial}, claimed_at}`. Any extraction step from free text is versioned, hashed in the run manifest, and its error rate is reported.
 - **Probe**: an independent check of the expected effect, executed on the same target after the claim, without trusting the agent's logs. The probe must be reproducible from the record.
 - **Truth**: probe result `∈ {success, failure, unverifiable}`.
+- **System-of-record (SoR)**: the authoritative external state that records the effect (DB commit/row, payment confirmation, file hash or run-unique nonce, ticket status). The probe MUST read the SoR; agent logs and self-reports are never SoR. Resource accounting (e.g., Slurm `sacct`) is telemetry, not proof of business effect.
 
 ## 2. Verdicts (pure function of claim and truth)
 
@@ -47,6 +49,9 @@ Two-proportion formula (α = 0.05 two-sided, power = 0.80):
 - p1 = 0.01, p2 = 0.03 (Δ = 0.02) → **n ≈ 768** per group (corrected; v1.0 printed 620 in error).
 Report the chosen n and the achieved CI; pre-register the primary endpoint.
 
+### Cluster bootstrap (effective n)
+When observations are clustered (node, task family, model, run), report **G** = number of independent clusters and use cluster bootstrap (resample clusters with replacement, B ≥ 10,000) for the CI. Precision is governed primarily by G, not by the raw record count; records within a cluster are not independent. With G ≤ 6 the CI is wide and must be reported as such. Do not compute a binomial/Wilson CI over all records without clustering.
+
 ## 4. Mismatch classes (only for verdict = false_success)
 - **M1 action-not-performed** — claim success, no effect.
 - **M2 wrong-effect** — effect differs from expected (wrong file/value/target).
@@ -72,20 +77,23 @@ Every number carries the label `controlled` or `field`. The public 12,344-record
 ```
 Each record is hash-chained (`prev_hash`, `hash`); the run manifest contains `merkle_root`, config hash, seeds, container digest, tool versions.
 
+**Conformance:** a published artifact MUST carry `prev_hash`/`hash` per line and `merkle_root` in the manifest. The current 12,344-record public artifact predates this requirement and is non-conformant; it must not be described as hash-chained until a conformant artifact is published.
+
 ## 8. Reproducibility
 - Determinism check: run twice, strip volatile fields (`ms`, `probe_ms`, `task_ms`, `ts`, `executed_at`, `claimed_at`), canonicalize JSON (sorted keys), compare SHA-256. Identical hashes = identical verdicts.
 - Publish: tarball + SHA256SUMS + evidence JSONL + run manifest; container digest and lock file where applicable.
 
 ## 9. Reporting template
-| Label | Model/Task | N | FS | FSR | 95% CI | Coverage | FSR_ub | p50/p95 probe | Class breakdown |
-|---|---|---|---|---|---|---|---|---|---|
-| field/controlled | ... | ... | ... | ... | Wilson | ... | ... | ... | M1..M4 |
+| Label | Model/Task | G | N | FS | FSR | 95% CI | Coverage | FSR_ub | p50/p95 probe | Class breakdown |
+|---|---|---|---|---|---|---|---|---|---|---|
+| field/controlled | ... | ... | ... | ... | ... | cluster bootstrap | ... | ... | ... | M1..M4 |
 
 ## 10. Status (what is NOT built, as of 2026-11-03)
 - Not built: cosign/Sigstore signing, in-toto attestation, OpenTelemetry export, OPA/Rego gate, Apptainer image, Zenodo DOI, public leaderboard.
-- GitHub organisation temporarily 404 (account lock); the static mirror is the only public source: https://gamai.io/crossnode-bench/
+- GitHub canonical source is live: https://github.com/gamai-io/crossnode-bench (verified 2026-11-03). The static mirror https://gamai.io/crossnode-bench/ remains a secondary copy.
+- Artifact conformance gap: the public 12,344-record artifact does not yet carry the per-record hash-chain/Merkle root required by §7; it must not be cited as hash-chained.
 - The 25,600 controlled trials are **not yet in the public artifact**; only the 12,344-record field artifact is public.
-- LUMI is in maintenance.
+- LUMI is not part of this artifact; access is subject to maintenance windows.
 
 ## 11. Non-claims
 This spec does not claim a universal field false-success rate, nor that other benchmarks lack ground truth. It defines a measurement protocol and its reporting rules only.
