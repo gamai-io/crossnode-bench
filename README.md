@@ -1,5 +1,5 @@
 [![CI](https://github.com/gamai-io/crossnode-bench/actions/workflows/ci.yml/badge.svg)](https://github.com/gamai-io/crossnode-bench/actions/workflows/ci.yml)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23920506.svg)](https://doi.org/10.5281/zenodo.23920506)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23920505.svg)](https://doi.org/10.5281/zenodo.23920505)
 
 > **Live evidence dashboard:** https://gamai-io.github.io/demo/
 

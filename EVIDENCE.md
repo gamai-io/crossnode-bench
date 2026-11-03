@@ -27,7 +27,7 @@ python3 tools/evidence.py verify \
   --manifest manifest.json
 ```
 
-**DOI:** [10.5281/zenodo.23920506](https://doi.org/10.5281/zenodo.23920506)
+**DOI:** [10.5281/zenodo.23920505](https://doi.org/10.5281/zenodo.23920505) (concept; latest version [10.5281/zenodo.23921358](https://doi.org/10.5281/zenodo.23921358))
 
 Current public artifact (2026-11-03, 12,344 records):
 
