@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gamai.io/crossnode-bench/schemas/run-manifest.schema.json",
+  "title": "CrossNode evidence chain manifest",
+  "type": "object",
+  "required": [
+    "schema", "canonicalization", "hash_rule", "merkle_rule",
+    "source_sha256", "records", "first_hash", "last_hash", "merkle_root", "tool"
+  ],
+  "properties": {
+    "schema": {"const": "crossnode-evidence-chain/1"},
+    "canonicalization": {"type": "string"},
+    "hash_rule": {"type": "string"},
+    "merkle_rule": {"type": "string"},
+    "source_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "records": {"type": "integer", "minimum": 0},
+    "first_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "last_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "merkle_root": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "tool": {"type": "string"}
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gamai.io/crossnode-bench/schemas/evidence-record.schema.json",
+  "title": "Chained CrossNode evidence record",
+  "type": "object",
+  "required": ["prev_hash", "hash"],
+  "properties": {
+    "run": {"type": ["integer", "string"]},
+    "node": {"type": "string"},
+    "task": {"type": ["string", "integer"]},
+    "kind": {"type": "string"},
+    "claim_ok": {"type": "boolean"},
+    "truth_ok": {"type": "boolean"},
+    "passed": {"type": "boolean"},
+    "false_success": {"type": "boolean"},
+    "why": {"type": "string"},
+    "cmd_sha256": {"type": "string"},
+    "out_sha256": {"type": "string"},
+    "prev_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  },
+  "additionalProperties": true
+}

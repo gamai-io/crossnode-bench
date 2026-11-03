@@ -90,6 +90,20 @@ false_success = claim_ok and not truth_ok
   failure modes (Session 0 windows, Android focus, stale caches, silent timeouts).
 - This is a measurement tool. It does not make an agent honest; it makes dishonesty visible.
 
+## Evidence pack
+
+Tamper-evident artifact: per-record SHA-256 chain plus a Merkle root, fixed rules, an
+offline verifier, and a fail-closed gate.
+
+- `tools/evidence.py` — `chain` / `verify` (deterministic, no timestamps in output)
+- `EVIDENCE.md` — normative rules, commands, acceptance tests, what is not built
+- `schemas/` — evidence record, run manifest, in-toto predicate, OTel attributes
+- `gate.rego` + `gate.sh` — deny unsigned evidence, FSR > 0.02, or coverage < 0.95
+- `.github/workflows/evidence.yml` — keyless `cosign sign-blob` + in-toto attestation + OPA gate
+
+Current public artifact (12,344 records): merkle root
+`eda02d9cd4ff14d594d144c2d319bb3a3d1ea16569638238be14779da3d11d2d`.
+
 ## License
 
 Apache-2.0.

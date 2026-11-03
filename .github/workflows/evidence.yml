@@ -1,0 +1,95 @@
+name: evidence
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  evidence:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: sigstore/cosign-installer@v3
+        with:
+          cosign-release: "v2.4.1"
+      - uses: open-policy-agent/setup-opa@v2
+        with:
+          version: "0.68.0"
+
+      - name: Fetch public artifact
+        run: curl -fsSL https://gamai.io/crossnode-bench/evidence/evidence_all.jsonl -o evidence_all.jsonl
+
+      - name: Build hash-chain + manifest
+        run: |
+          python3 tools/evidence.py chain \
+            --in evidence_all.jsonl \
+            --out evidence_chained.jsonl \
+            --manifest manifest.json \
+            --expect-records 12344
+
+      - name: Verify chain
+        run: python3 tools/evidence.py verify --in evidence_chained.jsonl --manifest manifest.json
+
+      - name: Sign evidence (keyless)
+        run: |
+          cosign sign-blob --yes \
+            --bundle evidence_chained.jsonl.bundle.json \
+            evidence_chained.jsonl
+
+      - name: Build in-toto predicate
+        run: |
+          python3 - <<'PY'
+          import json, hashlib
+          m = json.load(open("manifest.json", encoding="utf-8"))
+          art = hashlib.sha256(open("evidence_chained.jsonl", "rb").read()).hexdigest()
+          statement = {
+              "_type": "https://in-toto.io/Statement/v1",
+              "subject": [{"name": "evidence_chained.jsonl", "digest": {"sha256": art}}],
+              "predicateType": "https://gamai.io/crossnode-bench/predicate/v1",
+              "predicate": {
+                  "records": m["records"],
+                  "merkle_root": m["merkle_root"],
+                  "source_sha256": m["source_sha256"],
+                  "tool": m["tool"],
+                  "spec": "https://gamai.io/crossnode-bench/SPEC.md",
+              },
+          }
+          json.dump(statement, open("predicate.json", "w", encoding="utf-8"), sort_keys=True)
+          PY
+
+      - name: Attest evidence
+        run: |
+          cosign attest-blob --yes \
+            --predicate predicate.json \
+            --type custom \
+            --bundle evidence_chained.jsonl.attestation.json \
+            evidence_chained.jsonl
+
+      - name: Gate unsigned evidence (must fail)
+        run: |
+          if ./gate.sh evidence_chained.jsonl manifest.json false 0.02 0.95; then
+            echo "ERROR: gate accepted unsigned evidence"
+            exit 1
+          fi
+
+      - name: Gate signed evidence
+        run: ./gate.sh evidence_chained.jsonl manifest.json true 0.02 0.95
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: crossnode-evidence
+          path: |
+            evidence_chained.jsonl
+            manifest.json
+            evidence_chained.jsonl.bundle.json
+            evidence_chained.jsonl.attestation.json
+            predicate.json
