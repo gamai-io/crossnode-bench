@@ -28,5 +28,5 @@ Host: Contabo `vmi3557242` (Linux). Sve komande izvršene danas; PASS/FAIL iz st
 - `agent-immunity` **guard p50 = 2,35 ms** je odvojen od crossnode task-latency (31,6 ms) — ne miješati u tekstu.
 - Redroid kontejner **Exited (137)**, flota ga još prijavljuje online → popraviti ili ukloniti iz „online“.
 - `gama-mcp` na Contabu **inactive**; ComfyUI :8188 **down**; kuća disk 0; gcp 958 MB — ograničenja flote.
-- GitHub org 404 → javni dokaz ide kroz **mirror** (https://gamai.io/crossnode-bench/).
-- LUMI: maintenance; v31 bez output artefakta; 25.600 planted trials još nije konsolidovan u javni evidence.
+- GitHub org radi: https://github.com/gamai-io/crossnode-bench (release v1.2.0, DOI 10.5281/zenodo.23920506); mirror je sekundarna kopija.
+- LUMI-G pristup radi (job 23426349 završen, 4 min); LUMI mjerenja nisu dio javnog artefakta; 25.600 planted trials još nije konsolidovan u javni evidence.
