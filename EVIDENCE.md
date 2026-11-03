@@ -27,6 +27,8 @@ python3 tools/evidence.py verify \
   --manifest manifest.json
 ```
 
+**DOI:** [10.5281/zenodo.23920506](https://doi.org/10.5281/zenodo.23920506)
+
 Current public artifact (2026-11-03, 12,344 records):
 
 - `source_sha256: 2a3ca84f8f8d18f2e8aae57cc37da7cb211f7711d731172f58f629d562ff3282`
