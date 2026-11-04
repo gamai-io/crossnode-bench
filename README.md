@@ -1,5 +1,7 @@
 [![CI](https://github.com/gamai-io/crossnode-bench/actions/workflows/ci.yml/badge.svg)](https://github.com/gamai-io/crossnode-bench/actions/workflows/ci.yml)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23920505.svg)](https://doi.org/10.5281/zenodo.23920505)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23933835.svg)](https://doi.org/10.5281/zenodo.23933835) (concept [10.5281/zenodo.23920505](https://doi.org/10.5281/zenodo.23920505))
+
+**Latest: v1.2.2** — LUMI MI250X deterministic pre-LLM guard: false_success 19.7% (raw 1k) → **0/1,000** and **0/10,000 (PASS)**, 114.4 rps @ CONC=512.
 
 > **Live evidence dashboard:** https://gamai-io.github.io/demo/
 

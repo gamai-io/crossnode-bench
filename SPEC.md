@@ -1,6 +1,7 @@
-# Claim-vs-Truth Protocol — Metric Specification v1.2.1 (2026-11-03)
+# Claim-vs-Truth Protocol — Metric Specification v1.2.2 (2026-11-04)
 
 Status: public draft. License: Apache-2.0 (same as CrossNode-Bench).
+Changelog v1.2.2 (2026-11-04): LUMI MI250X deterministic pre-LLM guard — false_success 19.7% (raw 1k) → 0/1,000 and 0/10,000 (PASS), 114.4 rps @ CONC=512; portable benches (embed/Qdrant, rerank/chunk, CBR/skill); DOI 10.5281/zenodo.23933835.
 Changelog v1.2.1: evidence pack built (SHA-256 chain + Merkle, offline verifier, keyless cosign + in-toto attestation + OPA gate); artifact conformance gap resolved; Zenodo DOI 10.5281/zenodo.23920505; GitHub org and LUMI access verified; §10 status corrected.
 Changelog v1.2: cluster bootstrap over G clusters (not records); system-of-record truth hierarchy; `sacct` excluded as effect proof; artifact conformance gap stated (hash-chain/Merkle required by §7, absent in the 12,344-record artifact); GitHub canonical source restored.
 Changelog v1.1: fixed power example (768, not 620); explicit denominators; 9-cell verdict table; demo vs field labels; guard/probe/task latency separated; §10 status (what is NOT built).
@@ -90,7 +91,7 @@ Each record is hash-chained (`prev_hash`, `hash`); the run manifest contains `me
 | field/controlled | ... | ... | ... | ... | ... | cluster bootstrap | ... | ... | ... | M1..M4 |
 
 ## 10. Status (as of 2026-11-03)
-- Built: per-record SHA-256 chain + Merkle manifest, offline verifier (`tools/evidence.py`), JSON schemas, Rego policy (`gate.rego`), local gate (`gate.sh`), and a CI workflow with keyless cosign + in-toto attestation + OPA gate. DOI: 10.5281/zenodo.23920505. Release: v1.2.0. Software Heritage archive accepted.
+- Built: per-record SHA-256 chain + Merkle manifest, offline verifier (`tools/evidence.py`), JSON schemas, Rego policy (`gate.rego`), local gate (`gate.sh`), and a CI workflow with keyless cosign + in-toto attestation + OPA gate. DOI: 10.5281/zenodo.23933835 (v1.2.2; concept 10.5281/zenodo.23920505). Release: v1.2.2. Software Heritage archive accepted.
 - Not built: OpenTelemetry export (only the attribute contract), Apptainer image, public leaderboard, hardware root of trust. Keyless cosign signatures are produced in CI; no public transparency anchor is claimed.
 - GitHub canonical source is live: https://github.com/gamai-io/crossnode-bench (verified 2026-11-03). The static mirror https://gamai.io/crossnode-bench/ is a secondary copy.
 - Artifact: the public 12,344-record artifact now ships with the hash-chain and Merkle root (`evidence_chained.jsonl` + `manifest.json`) and conforms to §7.

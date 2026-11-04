@@ -4,14 +4,14 @@
   "access_right": "open",
   "license": "Apache-2.0",
   "language": "eng",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "creators": [
     {
       "name": "Šuster, Renato",
       "affiliation": "gamAI"
     }
   ],
-  "description": "<p>CrossNode-Bench measures whether an AI agent tells the truth about completed work. For each task the harness records the agent's claim, an independent probe on the target node, and a verdict; claim success plus truth failure is a false success.</p><p>Public artifact: 12,344 claim-vs-truth records from 36 runs on 6 heterogeneous nodes, with 53 false successes (0.43%). All false successes are probes. A controlled run of 25,600 planted-liar trials gives 6.25% share of probes that were planted liars; this is not a field rate.</p><p>This deposit contains the specification (v1.2.1), the harness, the public JSONL, a SHA-256 hash chain with a Merkle root, an offline verifier, JSON schemas, an OPA gate, and a keyless cosign + in-toto CI workflow. Verifying the artifact does not require this deposit: the chain and manifest are public and the verifier is offline.</p><p>What this deposit does not claim: no field false-success rate from the controlled test, no hardware root of trust, no Sigstore public transparency anchor, and no peer review.</p>",
+  "description": "<p>CrossNode-Bench measures whether an AI agent tells the truth about completed work. For each task the harness records the agent's claim, an independent probe on the target node, and a verdict; claim success plus truth failure is a false success.</p><p>Public artifact: 12,344 claim-vs-truth records from 36 runs on 6 heterogeneous nodes, with 53 false successes (0.43%). All false successes are probes. A controlled run of 25,600 planted-liar trials gives 6.25% share of probes that were planted liars; this is not a field rate.</p><p>This deposit contains the specification (v1.2.2), the LUMI MI250X false-success guard results (19.7% raw → 0/1,000 and 0/10,000 PASS), the harness, the public JSONL, a SHA-256 hash chain with a Merkle root, an offline verifier, JSON schemas, an OPA gate, and a keyless cosign + in-toto CI workflow. Verifying the artifact does not require this deposit: the chain and manifest are public and the verifier is offline.</p><p>What this deposit does not claim: no field false-success rate from the controlled test, no hardware root of trust, no Sigstore public transparency anchor, and no peer review.</p>",
   "keywords": [
     "AI agents",
     "false success",
