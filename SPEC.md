@@ -1,7 +1,7 @@
 # Claim-vs-Truth Protocol — Metric Specification v1.2.2 (2026-11-04)
 
 Status: public draft. License: Apache-2.0 (same as CrossNode-Bench).
-Changelog v1.2.2 (2026-11-04): LUMI MI250X deterministic pre-LLM guard — false_success 19.7% (raw 1k) → 0/1,000 and 0/10,000 (PASS), 114.4 rps @ CONC=512; portable benches (embed/Qdrant, rerank/chunk, CBR/skill); DOI 10.5281/zenodo.23933835.
+Changelog v1.2.2 (2026-11-04): LUMI MI250X deterministic pre-LLM guard — false_success 19.7% (raw 1k) → 0/1,000 and 1/10,000 (FAIL, 2026-11-04 rerun), 114.4 rps @ CONC=512; portable benches (embed/Qdrant, rerank/chunk, CBR/skill); DOI 10.5281/zenodo.23933835.
 Changelog v1.2.1: evidence pack built (SHA-256 chain + Merkle, offline verifier, keyless cosign + in-toto attestation + OPA gate); artifact conformance gap resolved; Zenodo DOI 10.5281/zenodo.23920505; GitHub org and LUMI access verified; §10 status corrected.
 Changelog v1.2: cluster bootstrap over G clusters (not records); system-of-record truth hierarchy; `sacct` excluded as effect proof; artifact conformance gap stated (hash-chain/Merkle required by §7, absent in the 12,344-record artifact); GitHub canonical source restored.
 Changelog v1.1: fixed power example (768, not 620); explicit denominators; 9-cell verdict table; demo vs field labels; guard/probe/task latency separated; §10 status (what is NOT built).
