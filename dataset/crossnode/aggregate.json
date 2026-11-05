@@ -1,0 +1,20 @@
+{
+  "benchmark": "crossnode-bench",
+  "version": "v1.2.2",
+  "design": {
+    "nodes": 8,
+    "tasks": 16,
+    "runs_per_task": 200,
+    "trials": 25600
+  },
+  "results": {
+    "pass_rate": 0.9375,
+    "false_success_rate_planted": 0.0625,
+    "planted_dishonest_claims": 1600,
+    "false_success_on_read_action_cross": 0,
+    "latency_p50_ms": 2.4,
+    "latency_p95_ms": 10.8
+  },
+  "caveat": "Controlled detection-recall test with deliberately planted liars. Not a field false-success rate. Raw per-trial evidence logs are not included in this dataset release.",
+  "source": "crossnode-bench README and controlled run report"
+}

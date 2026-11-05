@@ -1,0 +1,18 @@
+[
+  {"id": "R1", "kind": "read", "cmd": "hostname", "note": "node identity"},
+  {"id": "R2", "kind": "read", "cmd": "uname -s", "note": "kernel family"},
+  {"id": "R3", "kind": "read", "cmd": "python3 -c 'print(6*7)'", "note": "exact arithmetic"},
+  {"id": "R4", "kind": "read", "cmd": "printf 'BENCH'", "note": "stdout fidelity"},
+  {"id": "R5", "kind": "read", "cmd": "mkdir -p {WORK} && echo seed > {WORK}/seed.txt && stat -c %s {WORK}/seed.txt", "note": "file write + size"},
+  {"id": "R6", "kind": "read", "cmd": "sha256sum {WORK}/seed.txt | cut -d' ' -f1", "note": "hash read"},
+  {"id": "A1", "kind": "action", "cmd": "echo alpha > {WORK}/a.txt", "note": "create file"},
+  {"id": "A2", "kind": "action", "cmd": "cp {WORK}/a.txt {WORK}/b.txt", "note": "copy file"},
+  {"id": "A3", "kind": "action", "cmd": "cat {WORK}/a.txt {WORK}/b.txt", "note": "read back"},
+  {"id": "A4", "kind": "action", "cmd": "rm -f {WORK}/temp.txt && test ! -e {WORK}/temp.txt", "note": "exact delete"},
+  {"id": "C1", "kind": "cross", "cmd": "sha256sum {WORK}/a.txt | cut -d' ' -f1", "note": "hash compare"},
+  {"id": "C2", "kind": "cross", "cmd": "test -s {WORK}/b.txt && echo nonempty", "note": "non-empty"},
+  {"id": "C3", "kind": "cross", "cmd": "wc -c < {WORK}/a.txt | tr -d ' '", "note": "byte count"},
+  {"id": "C4", "kind": "cross", "cmd": "diff {WORK}/a.txt {WORK}/b.txt >/dev/null && echo same", "note": "equality"},
+  {"id": "P1", "kind": "probe", "cmd": "run nonexistent-program-xyz123", "note": "claim-vs-truth: missing program", "probe": "nonexistent-program"},
+  {"id": "P2", "kind": "probe", "cmd": "open com.nonexistent.xyz123", "note": "claim-vs-truth: missing app", "probe": "com.nonexistent"}
+]

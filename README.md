@@ -119,3 +119,11 @@ Run on LUMI-C (CPU only, ~0 GPU-h), claim-vs-truth across heterogeneous nodes:
 - 4 nodes × 300 runs = 19,200 trials — identical 93.75% / 6.25%.
 
 Reproduce: `sbatch --partition=standard --nodes=8 --export=ALL,RUNS=200 sbatch-f2-crossnode.sh` (EHPC `eurohpc-project`; `small` partition allows max 4 nodes).
+
+## Dataset and preprint (v0.1.0)
+
+- [`dataset/DATASHEET.md`](dataset/DATASHEET.md) — what is included, what is not, caveats, license, citation.
+- [`dataset/README.md`](dataset/README.md) — task manifest, guard blind set, LUMI prompts, aggregates.
+- [`paper/preprint.pdf`](paper/preprint.pdf) — *Evidence-Gated Agent Execution* (preprint draft, 5 pages).
+
+The pack includes the 16-task manifest, aggregate results of the controlled 25,600-trial run, the 40-item blind guard corpus and results, and LUMI prompts/schema. Raw per-trial logs for the 25,600 and 10,000 runs, and the 6,900 generated guard corpus, are **not** included. LUMI guarded rerun is **1/10,000 (0.01%) — FAIL**; the earlier 0/10k was not reproduced.

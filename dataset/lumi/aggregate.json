@@ -1,0 +1,11 @@
+{
+  "benchmark": "gama-lumi-bench",
+  "platform": "LUMI-G, 4x AMD MI250X per node",
+  "results": {
+    "raw_false_success": {"trials": 1000, "count": 197, "rate": 0.197},
+    "guard_v3_10k_rerun": {"run_id": "23453363", "date": "2026-11-04", "trials": 10000, "false_success": 1, "rate": 0.0001, "verdict": "FAIL against zero target"},
+    "earlier_0_10k_reproduced": false
+  },
+  "caveat": "The earlier 0/10,000 result was not reproduced. Do not claim zero. Raw 10k logs are not included in this release; prompts and results schema are included.",
+  "source": "gama-lumi-bench README"
+}

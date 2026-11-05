@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use this pack, cite the repository and the code DOI."
+title: "gamAI evidence benchmark pack: false-success and prompt-injection measurement"
+version: "0.1.0"
+date-released: "2026-11-05"
+authors:
+  - family-names: "Schuster"
+    given-names: "Renato"
+    affiliation: "GAMA/gamAI, Usora, Bosnia and Herzegovina"
+    email: "renato@gamatrade.ba"
+repository-code: "https://github.com/gamai-io/crossnode-bench"
+url: "https://github.com/gamai-io/crossnode-bench/tree/main/dataset"
+license: "Apache-2.0"
+doi: "10.5281/zenodo.23933835"
+keywords:
+  - ai-agents
+  - false-success
+  - evidence-gate
+  - prompt-injection
+  - benchmark
+  - reproducibility
