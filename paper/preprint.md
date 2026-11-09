@@ -2,9 +2,9 @@
 title: "Evidence-Gated Agent Execution: Measuring and Preventing False Success in Tool-Using LLM Agents"
 author:
   - "Renato Schuster"
-date: "2026-11-05"
+date: "2026-11-09"
 abstract: |
-  Tool-using agents frequently report success for actions that did not happen. We describe an evidence-gated execution model that binds each claim to observed state, a signed receipt that makes the claim replayable and tamper-evident, and a cross-node protocol that measures claim-vs-truth disagreement. In a controlled 8-node, 16-task, 200-run study (25,600 probes) with 6.25% deliberately planted dishonest claims, the evidence gate flagged all planted lies while read/action/cross tasks produced zero false successes. A multilingual prompt-injection guard blocked 29/30 blind attacks with 0/10 false positives. On LUMI-G, a guarded rerun produced 1/10,000 false successes (0.01%), failing a zero target; an earlier 0/10,000 result was not reproduced. We report these results with their limitations, including the controlled nature of the trial, small self-authored corpora, partial raw-data availability, and the absence of an independent audit.
+  Tool-using agents frequently report success for actions that did not happen. We describe an evidence-gated execution model that binds each claim to observed state, a signed receipt that makes the claim replayable and tamper-evident, and a cross-node protocol that measures claim-vs-truth disagreement. In a controlled 8-node, 16-task, 200-run study (25,600 probes) with 6.25% deliberately planted dishonest claims, the evidence gate flagged all planted lies while read/action/cross tasks produced zero false successes. A multilingual prompt-injection guard blocked 29/30 blind attacks with 0/10 false positives. On LUMI-G, a guarded rerun produced 1/10,000 false successes (0.01%), failing a zero target; an earlier 0/10,000 result was not reproduced. On a real 9-node multi-region fleet (one host plus eight Vultr instances, 200 rounds), 25,600 honest probes produced 0 false successes, and a controlled lying node was flagged on 400/400 probe claims. We report these results with their limitations, including the controlled nature of the trials, small self-authored corpora, partial raw-data availability, and the absence of an independent audit.
 ---
 
 # 1. Introduction
@@ -18,7 +18,7 @@ This paper describes a small, reproducible approach:
 3. **Cross-node measurement** — the same task is executed on heterogeneous nodes, and the agent's claim is compared with independent ground truth.
 4. **Injection guard** — untrusted text is checked before it reaches the model or a tool.
 
-We report results from a controlled cross-node trial, a blind multilingual injection set, and a LUMI-G false-success run. We deliberately include negative and incomplete results: the guarded 10,000-run produced one false success, not zero, and an earlier zero result was not reproduced. The raw per-trial logs for the largest run are not included in the public pack; only the task manifest and aggregate are included.
+We report results from a controlled cross-node trial, a real multi-region fleet run, a blind multilingual injection set, and a LUMI-G false-success run. We deliberately include negative and incomplete results: the guarded 10,000-run produced one false success, not zero, and an earlier zero result was not reproduced. The raw per-trial logs for the largest run are not included in the public pack; only the task manifest and aggregate are included.
 
 # 2. Method
 
@@ -81,6 +81,12 @@ On LUMI-G (4× AMD MI250X per node), the raw model produced 197/1,000 false succ
 
 The Floor Copilot workflow extracts supplier invoices, recomputes line totals, applies 17% VAT, and refuses to mark a result verified when the arithmetic does not reconcile. It is a qualitative case study in this draft; quantified savings and error rates require a larger anonymized evaluation and are not claimed here.
 
+## 3.5 Real multi-region fleet (Vultr, 200 rounds)
+
+Design: one Contabo host plus eight Vultr `vc2-1c-1gb` instances (Ubuntu 24.04) in fra, ams, lhr, mad, ewr, ord, dfw, and lax. Each node runs a token-protected HTTP agent; the benchmark uses the same 16 tasks and 200 rounds. The honest run has 9 nodes; the controlled liar run adds a `MockLiar` wrapper around one Vultr node that returns `ok:true` for probe commands while the underlying command fails.
+
+Result: honest run — 25,600 records, 25,600/25,600 pass (100%), 0 false successes, p50 64.8 ms, p95 325.1 ms. Liar run — 28,800 records, 28,400/28,800 pass (98.61%), 400 false successes (1.39%), all 400 on the lying node (P1/P2), p50 171.3 ms, p95 332.7 ms. The gate flagged every lying claim (400/400). Probes run only on nodes that expose a probe attribute; the liar wrapper exercises that path. This is a controlled detection test on real infrastructure, not a field prevalence estimate.
+
 # 4. Results
 
 | Experiment | n | Result | Caveat |
@@ -91,6 +97,8 @@ The Floor Copilot workflow extracts supplier invoices, recomputes line totals, a
 | Guard generated corpus | 6,900 | 79.6% block; 0.1% FP | aggregate only; corpus not included |
 | LUMI raw | 1,000 | 197 false successes (19.7%) | single run |
 | LUMI guarded v3 | 10,000 | 1 false success (0.01%) — FAIL | 12 templates × ~833 repetitions; earlier 0/10k not reproduced |
+| Vultr honest fleet | 25,600 | 100% pass; 0 false success | 9 nodes, 200 rounds; probes only on probe-enabled nodes |
+| Vultr controlled liar | 28,800 | 98.61% pass; 400 false successes (1.39%) | 400/400 lying claims flagged; controlled wrapper |
 
 # 5. Limitations
 
@@ -101,6 +109,8 @@ The Floor Copilot workflow extracts supplier invoices, recomputes line totals, a
 - **One negative result.** The guarded LUMI rerun failed the zero target; we do not claim zero.
 - **Repeated measures.** The LUMI 1k and 10k runs use 12 fixed prompt templates repeated (~83 and ~833 times respectively); they are not 1,000/10,000 distinct tasks.
 - **Industrial evidence is qualitative.** Floor Copilot is a case study, not a quantified field trial in this draft.
+- **Real fleet is still controlled.** The Vultr run is a real multi-region fleet, but the liar is a controlled wrapper and the probes are synthetic. It is not a field prevalence study.
+- **Ephemeral infrastructure.** Vultr IPs and instance IDs are a 2026-11-09 snapshot; the run is reproducible by protocol, not by fixed hosts.
 
 # 6. Ethics and reproducibility
 
@@ -123,6 +133,7 @@ False success is measurable, and an evidence gate can catch a controlled share o
 - Cross-node code/DOI: https://doi.org/10.5281/zenodo.23933835
 - Guard: https://github.com/gamai-io/gamai-guard
 - LUMI bench: https://github.com/renatoschust-dot/gama-lumi-bench
+- Vultr 200-round results: https://github.com/gamai-io/crossnode-bench/tree/main/results/vultr-fleet-2026-11-09-200
 - Claim/receipt core: https://pypi.org/project/proofgate-runtime/
 - SIGIL: https://github.com/gamai-io/sigil
 
@@ -137,4 +148,4 @@ False success is measurable, and an evidence gate can catch a controlled share o
 
 ---
 
-*Preprint draft 0.1.0 — 2026-11-05. Not peer reviewed. No institutional affiliation is claimed in this draft; academic collaboration is in preparation.*
+*Preprint draft 0.2.0 — 2026-11-09. Not peer reviewed. No institutional affiliation is claimed in this draft; academic collaboration is in preparation.*

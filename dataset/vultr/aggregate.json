@@ -1,0 +1,28 @@
+{
+  "benchmark": "CrossNode-Bench real multi-region fleet",
+  "date": "2026-11-09",
+  "provider": "Vultr + Contabo",
+  "nodes": ["contabo", "vultr-fra", "vultr-ams", "vultr-lhr", "vultr-mad", "vultr-ewr", "vultr-ord", "vultr-dfw", "vultr-lax"],
+  "honest": {
+    "runs": 200,
+    "records": 25600,
+    "passed": 25600,
+    "false_success": 0,
+    "pass_rate": 1.0,
+    "latency_ms_p50": 64.8,
+    "latency_ms_p95": 325.1,
+    "evidence_sha256": "960b661424b2c2a147ad2179d15aeab357a34ce6e45b3e8564066fe824e87049"
+  },
+  "liar": {
+    "runs": 200,
+    "records": 28800,
+    "passed": 28400,
+    "false_success": 400,
+    "false_success_rate": 0.0139,
+    "latency_ms_p50": 171.3,
+    "latency_ms_p95": 332.7,
+    "evidence_sha256": "372851594aae1ee554a46b817a0c466fad3edda4f3e9a0ecff2df9a081789674"
+  },
+  "caveat": "Controlled detection test: the liar is a MockLiar wrapper around a real Vultr node, probes are synthetic, and probes run only on nodes exposing a probe attribute. Not a field false-success rate.",
+  "source": "https://github.com/gamai-io/crossnode-bench/tree/main/results/vultr-fleet-2026-11-09-200"
+}

@@ -1,7 +1,7 @@
 [![CI](https://github.com/gamai-io/crossnode-bench/actions/workflows/ci.yml/badge.svg)](https://github.com/gamai-io/crossnode-bench/actions/workflows/ci.yml)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23933835.svg)](https://doi.org/10.5281/zenodo.23933835) (concept [10.5281/zenodo.23920505](https://doi.org/10.5281/zenodo.23920505))
 
-**Latest: v1.2.2** — LUMI MI250X deterministic pre-LLM guard: false_success 19.7% (raw 1k) → **0/1,000**; 10k rerun (2026-11-04) **1/10,000 (FAIL)** - earlier 0/10,000 not reproduced; 114.4 rps @ CONC=512 (prior run).
+**Latest: v1.4.0** — real 9-node Vultr fleet (200 rounds): **25,600 honest records, 0 false success**; controlled liar run **400 false successes / 28,800, all 400 flagged**. LUMI MI250X guard: 19.7% raw → 0/1,000 (v3); 10k rerun **1/10,000 (FAIL)**, earlier 0/10k not reproduced.
 
 > **Live evidence dashboard:** https://gamai-io.github.io/demo/
 

@@ -5,7 +5,7 @@
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <meta name="author" content="Renato Schuster" />
-  <meta name="dcterms.date" content="2026-11-05" />
+  <meta name="dcterms.date" content="2026-11-09" />
   <title>Evidence-Gated Agent Execution: Measuring and Preventing False Success in Tool-Using LLM Agents</title>
   <style>
     code{white-space: pre-wrap;}
@@ -31,7 +31,7 @@
 <h1 class="title">Evidence-Gated Agent Execution: Measuring and
 Preventing False Success in Tool-Using LLM Agents</h1>
 <p class="author">Renato Schuster</p>
-<p class="date">2026-11-05</p>
+<p class="date">2026-11-09</p>
 <div class="abstract">
 <div class="abstract-title">Abstract</div>
 <p>Tool-using agents frequently report success for actions that did not
@@ -44,10 +44,13 @@ the evidence gate flagged all planted lies while read/action/cross tasks
 produced zero false successes. A multilingual prompt-injection guard
 blocked 29/30 blind attacks with 0/10 false positives. On LUMI-G, a
 guarded rerun produced 1/10,000 false successes (0.01%), failing a zero
-target; an earlier 0/10,000 result was not reproduced. We report these
-results with their limitations, including the controlled nature of the
-trial, small self-authored corpora, partial raw-data availability, and
-the absence of an independent audit.</p>
+target; an earlier 0/10,000 result was not reproduced. On a real 9-node
+multi-region fleet (one host plus eight Vultr instances, 200 rounds),
+25,600 honest probes produced 0 false successes, and a controlled lying
+node was flagged on 400/400 probe claims. We report these results with
+their limitations, including the controlled nature of the trials, small
+self-authored corpora, partial raw-data availability, and the absence of
+an independent audit.</p>
 </div>
 </header>
 <h1 id="introduction">1. Introduction</h1>
@@ -73,13 +76,13 @@ independent ground truth.</li>
 <li><strong>Injection guard</strong> — untrusted text is checked before
 it reaches the model or a tool.</li>
 </ol>
-<p>We report results from a controlled cross-node trial, a blind
-multilingual injection set, and a LUMI-G false-success run. We
-deliberately include negative and incomplete results: the guarded
-10,000-run produced one false success, not zero, and an earlier zero
-result was not reproduced. The raw per-trial logs for the largest run
-are not included in the public pack; only the task manifest and
-aggregate are included.</p>
+<p>We report results from a controlled cross-node trial, a real
+multi-region fleet run, a blind multilingual injection set, and a LUMI-G
+false-success run. We deliberately include negative and incomplete
+results: the guarded 10,000-run produced one false success, not zero,
+and an earlier zero result was not reproduced. The raw per-trial logs
+for the largest run are not included in the public pack; only the task
+manifest and aggregate are included.</p>
 <h1 id="method">2. Method</h1>
 <h2 id="claims-and-predicates">2.1 Claims and predicates</h2>
 <p>A claim has the form
@@ -185,6 +188,23 @@ line totals, applies 17% VAT, and refuses to mark a result verified when
 the arithmetic does not reconcile. It is a qualitative case study in
 this draft; quantified savings and error rates require a larger
 anonymized evaluation and are not claimed here.</p>
+<h2 id="real-multi-region-fleet-vultr-200-rounds">3.5 Real multi-region
+fleet (Vultr, 200 rounds)</h2>
+<p>Design: one Contabo host plus eight Vultr <code>vc2-1c-1gb</code>
+instances (Ubuntu 24.04) in fra, ams, lhr, mad, ewr, ord, dfw, and lax.
+Each node runs a token-protected HTTP agent; the benchmark uses the same
+16 tasks and 200 rounds. The honest run has 9 nodes; the controlled liar
+run adds a <code>MockLiar</code> wrapper around one Vultr node that
+returns <code>ok:true</code> for probe commands while the underlying
+command fails.</p>
+<p>Result: honest run — 25,600 records, 25,600/25,600 pass (100%), 0
+false successes, p50 64.8 ms, p95 325.1 ms. Liar run — 28,800 records,
+28,400/28,800 pass (98.61%), 400 false successes (1.39%), all 400 on the
+lying node (P1/P2), p50 171.3 ms, p95 332.7 ms. The gate flagged every
+lying claim (400/400). Probes run only on nodes that expose a probe
+attribute; the liar wrapper exercises that path. This is a controlled
+detection test on real infrastructure, not a field prevalence
+estimate.</p>
 <h1 id="results">4. Results</h1>
 <table style="width:100%;">
 <colgroup>
@@ -239,6 +259,18 @@ read/action/cross</td>
 <td>1 false success (0.01%) — FAIL</td>
 <td>12 templates × ~833 repetitions; earlier 0/10k not reproduced</td>
 </tr>
+<tr class="odd">
+<td>Vultr honest fleet</td>
+<td style="text-align: right;">25,600</td>
+<td>100% pass; 0 false success</td>
+<td>9 nodes, 200 rounds; probes only on probe-enabled nodes</td>
+</tr>
+<tr class="even">
+<td>Vultr controlled liar</td>
+<td style="text-align: right;">28,800</td>
+<td>98.61% pass; 400 false successes (1.39%)</td>
+<td>400/400 lying claims flagged; controlled wrapper</td>
+</tr>
 </tbody>
 </table>
 <h1 id="limitations">5. Limitations</h1>
@@ -261,6 +293,12 @@ fixed prompt templates repeated (~83 and ~833 times respectively); they
 are not 1,000/10,000 distinct tasks.</li>
 <li><strong>Industrial evidence is qualitative.</strong> Floor Copilot
 is a case study, not a quantified field trial in this draft.</li>
+<li><strong>Real fleet is still controlled.</strong> The Vultr run is a
+real multi-region fleet, but the liar is a controlled wrapper and the
+probes are synthetic. It is not a field prevalence study.</li>
+<li><strong>Ephemeral infrastructure.</strong> Vultr IPs and instance
+IDs are a 2026-11-09 snapshot; the run is reproducible by protocol, not
+by fixed hosts.</li>
 </ul>
 <h1 id="ethics-and-reproducibility">6. Ethics and reproducibility</h1>
 <p>No human-subject data, personal data, credentials, tokens, or
@@ -294,6 +332,8 @@ https://github.com/gamai-io/crossnode-bench/tree/main/dataset</li>
 <li>Cross-node code/DOI: https://doi.org/10.5281/zenodo.23933835</li>
 <li>Guard: https://github.com/gamai-io/gamai-guard</li>
 <li>LUMI bench: https://github.com/renatoschust-dot/gama-lumi-bench</li>
+<li>Vultr 200-round results:
+https://github.com/gamai-io/crossnode-bench/tree/main/results/vultr-fleet-2026-11-09-200</li>
 <li>Claim/receipt core: https://pypi.org/project/proofgate-runtime/</li>
 <li>SIGIL: https://github.com/gamai-io/sigil</li>
 </ul>
@@ -314,7 +354,7 @@ https://github.com/gamai-io/sigil</li>
 https://www.microsoft.com/security/security-insider/intelligence-reports/microsoft-digital-defense-report-2026</li>
 </ol>
 <hr />
-<p><em>Preprint draft 0.1.0 — 2026-11-05. Not peer reviewed. No
+<p><em>Preprint draft 0.2.0 — 2026-11-09. Not peer reviewed. No
 institutional affiliation is claimed in this draft; academic
 collaboration is in preparation.</em></p>
 </body>

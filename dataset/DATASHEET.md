@@ -28,6 +28,8 @@ It is a measurement pack, not a training corpus.
 | `lumi/prompts_v2.json` | LUMI evaluation prompts | 110 prompts |
 | `lumi/results.schema.json` | Result schema for LUMI runs | schema |
 | `lumi/aggregate.json` | Raw and guarded false-success summary | 1,000 + 10,000 samples (12 prompt templates × ~833) |
+| `vultr/aggregate.json` | Real multi-region Vultr fleet, 200 rounds | 25,600 honest + 28,800 liar (aggregate only) |
+| `vultr/VULTR_2026-11-09.md` | Fleet summary and caveats | text |
 
 ## What is NOT included
 - **Raw per-trial logs for the 25,600 cross-node trials.** Only the aggregate and task manifest are included.
@@ -42,6 +44,7 @@ If you need raw logs for independent re-analysis, contact the maintainer. Do not
 - **Cross-node:** 8 nodes × 16 tasks × 200 runs = 25,600 controlled probes. A controlled share (6.25%) of probes carried deliberately dishonest claims; the evidence gate flagged them. Read/action/cross tasks produced 0 false successes.
 - **Guard blind set:** 40 items authored for this check (30 attacks in DE/FR/ES/BS, 10 benign). Lexical-only blocked 4/30; lexical + bge-m3 blocked 29/30 with 0/10 false positives; one German wording missed.
 - **LUMI:** raw model false-success 197/1,000 (19.7%); guard v3 10k rerun produced 1/10,000 (0.01%) and **failed** the zero target. The 10k run uses 12 prompt templates (~833 repetitions each), not 10,000 distinct tasks. The earlier 0/10,000 was not reproduced.
+- **Vultr fleet:** 9 nodes (Contabo + 8 Vultr) × 16 tasks × 200 rounds = 25,600 honest records, 0 false success. The controlled liar run adds a `MockLiar` wrapper around one Vultr node: 28,800 records, 400 false successes (1.39%), all 400 flagged.
 
 ## Labeling and validation
 - Cross-node ground truth is the observed system state (stdout, hash, exit code, file state), not the model's claim.

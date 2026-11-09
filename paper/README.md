@@ -1,7 +1,7 @@
 # Preprint
 
 **Evidence-Gated Agent Execution: Measuring and Preventing False Success in Tool-Using LLM Agents**  
-v0.1.0 — 2026-11-05 — preprint draft, not peer reviewed.
+v0.2.0 — 2026-11-09 — preprint draft, not peer reviewed.
 
 Files:
 - `preprint.md` — source
