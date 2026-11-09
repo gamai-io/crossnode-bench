@@ -23,4 +23,6 @@ This release adds a real 9-node multi-region fleet run to the measurement pack.
 - Vultr IPs/instances are a 2026-11-09 snapshot; reproducibility is by protocol, not fixed hosts.
 - No independent audit; preprint is not peer reviewed.
 
+DOI: https://doi.org/10.5281/zenodo.24092188 (concept 10.5281/zenodo.23920505).
+
 License: Apache-2.0.

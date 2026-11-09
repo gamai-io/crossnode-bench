@@ -130,7 +130,7 @@ False success is measurable, and an evidence gate can catch a controlled share o
 # Data and code availability
 
 - Measurement pack: https://github.com/gamai-io/crossnode-bench/tree/main/dataset
-- Cross-node code/DOI: https://doi.org/10.5281/zenodo.23933835
+- Cross-node code/DOI: https://doi.org/10.5281/zenodo.24092188 (v1.4.0; concept 10.5281/zenodo.23920505)
 - Guard: https://github.com/gamai-io/gamai-guard
 - LUMI bench: https://github.com/renatoschust-dot/gama-lumi-bench
 - Vultr 200-round results: https://github.com/gamai-io/crossnode-bench/tree/main/results/vultr-fleet-2026-11-09-200
@@ -139,7 +139,7 @@ False success is measurable, and an evidence gate can catch a controlled share o
 
 # References
 
-1. R. Schuster. *CrossNode-Bench: claim-vs-truth evidence for AI agents.* Zenodo, 2026. https://doi.org/10.5281/zenodo.23933835
+1. R. Schuster. *CrossNode-Bench: claim-vs-truth evidence for AI agents.* Zenodo, 2026. https://doi.org/10.5281/zenodo.24092188
 2. gamAI. *gamai-guard: multilingual prompt-injection guard.* https://github.com/gamai-io/gamai-guard
 3. gamAI. *gama-lumi-bench: LUMI deterministic and false-success experiments.* https://github.com/renatoschust-dot/gama-lumi-bench
 4. gamAI. *ProofGate Runtime: claim verification and signed receipts.* https://pypi.org/project/proofgate-runtime/
