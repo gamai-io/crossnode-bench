@@ -1,0 +1,71 @@
+{
+  "ok": true,
+  "nodes": [
+    {
+      "name": "contabo"
+    },
+    {
+      "name": "vultr-fra"
+    },
+    {
+      "name": "vultr-ams"
+    },
+    {
+      "name": "vultr-lhr"
+    },
+    {
+      "name": "vultr-mad"
+    },
+    {
+      "name": "vultr-ewr"
+    },
+    {
+      "name": "vultr-ord"
+    },
+    {
+      "name": "vultr-dfw"
+    },
+    {
+      "name": "vultr-lax"
+    },
+    {
+      "name": "vultr-lax-liar"
+    }
+  ],
+  "runs": 30,
+  "tasks": 16,
+  "records": 4320,
+  "passed": 4260,
+  "false_success": 60,
+  "pass_rate": 0.9861,
+  "false_success_rate": 0.0139,
+  "by_kind": {
+    "read": {
+      "n": 1800,
+      "pass": 1800,
+      "false_success": 0
+    },
+    "action": {
+      "n": 1200,
+      "pass": 1200,
+      "false_success": 0
+    },
+    "cross": {
+      "n": 1200,
+      "pass": 1200,
+      "false_success": 0
+    },
+    "probe": {
+      "n": 120,
+      "pass": 60,
+      "false_success": 60
+    }
+  },
+  "latency_ms": {
+    "p50": 170.7,
+    "p95": 330.2
+  },
+  "evidence_sha256": "ff6cab3f2d713040afc535b136c0ceab83d9bab4f7370eb06ed1700e334ad1cd",
+  "ts": "2026-11-09T18:17:41Z",
+  "dir": "/root/crossnode-bench/runs/20261109-190656"
+}
