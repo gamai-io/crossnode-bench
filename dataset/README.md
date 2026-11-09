@@ -16,19 +16,19 @@ guard/blind_multilingual_results.json
 guard/aggregate.json                 40-item + 6,900 generated-corpus aggregates
 lumi/prompts_v2.json                 110 LUMI prompts
 lumi/results.schema.json
-lumi/aggregate.json                  1,000 raw + 10,000 guarded aggregate
+lumi/aggregate.json                  1,000 raw + 10,000 guarded samples (12 templates × ~833)
 ```
 
 ## Reproduce
 - Cross-node: https://github.com/gamai-io/crossnode-bench (`crossnode.py`, `SPEC.md`)
 - Guard: https://github.com/gamai-io/gamai-guard (`bench/eval_blind.py`)
-- LUMI: https://github.com/renatoschust-dot/gama-lumi-bench
+- LUMI: https://github.com/renatoschust-dot/gama-lumi-bench (`bench_v2/prompts_v1.json` — 12 templates used in the 1k/10k runs; `prompts_v2.json` is a newer 110-prompt set)
 - Claim verification / receipts: https://github.com/gamai-io/proofgate-runtime
 
 ## Caveats
 - The 25,600 run is a **controlled detection-recall test**, not a field rate.
 - The guard blind set is **40 items, self-authored**; 96.7% is a baseline.
-- LUMI guard v3 rerun is **1/10,000 (0.01%) — FAIL**, not zero. The earlier 0/10k was not reproduced.
+- LUMI guard v3 rerun is **1/10,000 (0.01%) — FAIL**, not zero; it uses 12 prompt templates (~833 repetitions each), not 10,000 distinct tasks. The earlier 0/10k was not reproduced.
 - No independent security audit.
 
 ## License

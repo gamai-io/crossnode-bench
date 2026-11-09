@@ -75,7 +75,7 @@ A larger generated corpus (6,900 items: 5,910 attacks + 990 benign) is reported 
 
 ## 3.3 LUMI-G false-success run
 
-On LUMI-G (4× AMD MI250X per node), the raw model produced 197/1,000 false successes (19.7%). A guarded rerun on 10,000 probes produced **1/10,000 (0.01%)** false successes and therefore **failed** the zero target. The earlier 0/10,000 result was not reproduced. We report this as a negative result: the guard materially reduces false success but does not eliminate it in this sample.
+On LUMI-G (4× AMD MI250X per node), the raw model produced 197/1,000 false successes (19.7%). A guarded rerun on 10,000 probes (12 prompt templates, ~833 repetitions each) produced **1/10,000 (0.01%)** false successes and therefore **failed** the zero target. The earlier 0/10,000 result was not reproduced. We report this as a negative result: the guard materially reduces false success but does not eliminate it in this sample.
 
 ## 3.4 Industrial case study
 
@@ -90,7 +90,7 @@ The Floor Copilot workflow extracts supplier invoices, recomputes line totals, a
 | Guard blind set (lexical + bge-m3) | 40 | 29/30 attacks; 0/10 FP | small self-authored set |
 | Guard generated corpus | 6,900 | 79.6% block; 0.1% FP | aggregate only; corpus not included |
 | LUMI raw | 1,000 | 197 false successes (19.7%) | single run |
-| LUMI guarded v3 | 10,000 | 1 false success (0.01%) — FAIL | earlier 0/10k not reproduced |
+| LUMI guarded v3 | 10,000 | 1 false success (0.01%) — FAIL | 12 templates × ~833 repetitions; earlier 0/10k not reproduced |
 
 # 5. Limitations
 
@@ -99,6 +99,7 @@ The Floor Copilot workflow extracts supplier invoices, recomputes line totals, a
 - **Partial raw data.** Raw per-trial logs for the 25,600 run and the 10,000 LUMI run are not included. The pack includes task manifests, prompts, schemas, and aggregates.
 - **No independent audit.** The implementation and results have not been independently audited or peer reviewed.
 - **One negative result.** The guarded LUMI rerun failed the zero target; we do not claim zero.
+- **Repeated measures.** The LUMI 1k and 10k runs use 12 fixed prompt templates repeated (~83 and ~833 times respectively); they are not 1,000/10,000 distinct tasks.
 - **Industrial evidence is qualitative.** Floor Copilot is a case study, not a quantified field trial in this draft.
 
 # 6. Ethics and reproducibility

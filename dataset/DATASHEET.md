@@ -27,12 +27,13 @@ It is a measurement pack, not a training corpus.
 | `guard/aggregate.json` | Aggregate blind-set + generated-corpus results | 40 + 6,900 (aggregate only) |
 | `lumi/prompts_v2.json` | LUMI evaluation prompts | 110 prompts |
 | `lumi/results.schema.json` | Result schema for LUMI runs | schema |
-| `lumi/aggregate.json` | Raw and guarded false-success summary | 1,000 + 10,000 (aggregate only) |
+| `lumi/aggregate.json` | Raw and guarded false-success summary | 1,000 + 10,000 samples (12 prompt templates × ~833) |
 
 ## What is NOT included
 - **Raw per-trial logs for the 25,600 cross-node trials.** Only the aggregate and task manifest are included.
 - **The 6,900-item generated guard corpus.** Only aggregate results are included.
 - **Raw 10,000 LUMI result records.** Only prompts, schema and aggregate results are included.
+- **The 10,000 LUMI samples are 12 prompt templates repeated ~833 times**, not 10,000 distinct tasks. The templates are in `gama-lumi-bench/bench_v2/prompts_v1.json` (Apache-2.0).
 - **Any industrial invoice/ERP data.** The Floor Copilot case study is separate and anonymized; no customer data is in this pack.
 
 If you need raw logs for independent re-analysis, contact the maintainer. Do not assume the aggregate can be re-derived from the included files alone.
@@ -40,7 +41,7 @@ If you need raw logs for independent re-analysis, contact the maintainer. Do not
 ## Collection
 - **Cross-node:** 8 nodes × 16 tasks × 200 runs = 25,600 controlled probes. A controlled share (6.25%) of probes carried deliberately dishonest claims; the evidence gate flagged them. Read/action/cross tasks produced 0 false successes.
 - **Guard blind set:** 40 items authored for this check (30 attacks in DE/FR/ES/BS, 10 benign). Lexical-only blocked 4/30; lexical + bge-m3 blocked 29/30 with 0/10 false positives; one German wording missed.
-- **LUMI:** raw model false-success 197/1,000 (19.7%); guard v3 10k rerun produced 1/10,000 (0.01%) and **failed** the zero target. The earlier 0/10,000 was not reproduced.
+- **LUMI:** raw model false-success 197/1,000 (19.7%); guard v3 10k rerun produced 1/10,000 (0.01%) and **failed** the zero target. The 10k run uses 12 prompt templates (~833 repetitions each), not 10,000 distinct tasks. The earlier 0/10,000 was not reproduced.
 
 ## Labeling and validation
 - Cross-node ground truth is the observed system state (stdout, hash, exit code, file state), not the model's claim.

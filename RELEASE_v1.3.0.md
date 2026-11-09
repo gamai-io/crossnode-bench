@@ -19,7 +19,7 @@ This release packages the measurement artifacts behind the false-success and pro
 ## Caveats
 - 25,600 is a controlled detection-recall test, not a field false-success rate.
 - The guard blind set is 40 items and self-authored; 96.7% is a baseline.
-- LUMI guarded rerun is 1/10,000 (0.01%) — FAIL; earlier 0/10k was not reproduced.
+- LUMI guarded rerun is 1/10,000 (0.01%) — FAIL; earlier 0/10k was not reproduced. The 10k run uses 12 prompt templates (~833 repetitions each), not 10,000 distinct tasks.
 - No independent audit; preprint is not peer reviewed.
 
 License: Apache-2.0. Code DOI: https://doi.org/10.5281/zenodo.23933835
