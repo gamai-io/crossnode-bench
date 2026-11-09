@@ -22,7 +22,7 @@ lumi/aggregate.json                  1,000 raw + 10,000 guarded aggregate
 ## Reproduce
 - Cross-node: https://github.com/gamai-io/crossnode-bench (`crossnode.py`, `SPEC.md`)
 - Guard: https://github.com/gamai-io/gamai-guard (`bench/eval_blind.py`)
-- LUMI: https://github.com/gamai-io/gama-lumi-bench (`bench_v2/`)
+- LUMI: https://github.com/renatoschust-dot/gama-lumi-bench
 - Claim verification / receipts: https://github.com/gamai-io/proofgate-runtime
 
 ## Caveats

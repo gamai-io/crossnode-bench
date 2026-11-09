@@ -121,7 +121,7 @@ False success is measurable, and an evidence gate can catch a controlled share o
 - Measurement pack: https://github.com/gamai-io/crossnode-bench/tree/main/dataset
 - Cross-node code/DOI: https://doi.org/10.5281/zenodo.23933835
 - Guard: https://github.com/gamai-io/gamai-guard
-- LUMI bench: https://github.com/gamai-io/gama-lumi-bench
+- LUMI bench: https://github.com/renatoschust-dot/gama-lumi-bench
 - Claim/receipt core: https://pypi.org/project/proofgate-runtime/
 - SIGIL: https://github.com/gamai-io/sigil
 
@@ -129,7 +129,7 @@ False success is measurable, and an evidence gate can catch a controlled share o
 
 1. R. Schuster. *CrossNode-Bench: claim-vs-truth evidence for AI agents.* Zenodo, 2026. https://doi.org/10.5281/zenodo.23933835
 2. gamAI. *gamai-guard: multilingual prompt-injection guard.* https://github.com/gamai-io/gamai-guard
-3. gamAI. *gama-lumi-bench: LUMI deterministic and false-success experiments.* https://github.com/gamai-io/gama-lumi-bench
+3. gamAI. *gama-lumi-bench: LUMI deterministic and false-success experiments.* https://github.com/renatoschust-dot/gama-lumi-bench
 4. gamAI. *ProofGate Runtime: claim verification and signed receipts.* https://pypi.org/project/proofgate-runtime/
 5. gamAI. *SIGIL/1: proof-carrying execution for AI agents.* https://github.com/gamai-io/sigil
 6. Microsoft. *Microsoft Digital Defense Report 2026.* https://www.microsoft.com/security/security-insider/intelligence-reports/microsoft-digital-defense-report-2026
