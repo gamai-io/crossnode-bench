@@ -1,0 +1,71 @@
+{
+  "ok": true,
+  "nodes": [
+    {
+      "name": "contabo"
+    },
+    {
+      "name": "vultr-fra"
+    },
+    {
+      "name": "vultr-ams"
+    },
+    {
+      "name": "vultr-lhr"
+    },
+    {
+      "name": "vultr-mad"
+    },
+    {
+      "name": "vultr-ewr"
+    },
+    {
+      "name": "vultr-ord"
+    },
+    {
+      "name": "vultr-dfw"
+    },
+    {
+      "name": "vultr-lax"
+    },
+    {
+      "name": "vultr-lax-liar"
+    }
+  ],
+  "runs": 200,
+  "tasks": 16,
+  "records": 28800,
+  "passed": 28400,
+  "false_success": 400,
+  "pass_rate": 0.9861,
+  "false_success_rate": 0.0139,
+  "by_kind": {
+    "read": {
+      "n": 12000,
+      "pass": 12000,
+      "false_success": 0
+    },
+    "action": {
+      "n": 8000,
+      "pass": 8000,
+      "false_success": 0
+    },
+    "cross": {
+      "n": 8000,
+      "pass": 8000,
+      "false_success": 0
+    },
+    "probe": {
+      "n": 800,
+      "pass": 400,
+      "false_success": 400
+    }
+  },
+  "latency_ms": {
+    "p50": 171.3,
+    "p95": 332.7
+  },
+  "evidence_sha256": "52800a63b56dd28954a16823caf976ade292154c8cb06bb7be548e795795355e",
+  "ts": "2026-11-09T19:35:59Z",
+  "dir": "/root/backups/run_200/liar_run"
+}
