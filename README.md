@@ -1,7 +1,8 @@
 [![CI](https://github.com/gamai-io/crossnode-bench/actions/workflows/ci.yml/badge.svg)](https://github.com/gamai-io/crossnode-bench/actions/workflows/ci.yml)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24092188.svg)](https://doi.org/10.5281/zenodo.24092188) (v1.4.0; concept [10.5281/zenodo.23920505](https://doi.org/10.5281/zenodo.23920505))
 
-**Latest: v1.4.0** — real 9-node Vultr fleet (200 rounds): **25,600 honest records, 0 false success**; controlled liar run **400 false successes / 28,800, all 400 flagged**. LUMI MI250X guard: 19.7% raw → 0/1,000 (v3); 10k rerun **1/10,000 (FAIL)**, earlier 0/10k not reproduced.
+**Latest: v1.5.0** — LUMI campaign E1–E6: **36,550 guard requests, 0 errors, 0 false successes** (Qwen2.5-7B 114 rps @conc256; Llama-3.3-70B 28.7 rps; 10,000-request run 0/10,000); deterministic invoice gate **recall 1,109/1,109, FP 0/391**; adaptive injection **V1 33% detection / 35% FP → V2 90.1% / 2.5%** (out-of-sample 85.7% / 3.5%); reproducibility is **not** bit-identical under continuous batching (b4 differs 2/100 at temperature 0).
+Previous: **v1.4.0** — real 9-node Vultr fleet (200 rounds): **25,600 honest records, 0 false success**; controlled liar run **400 false successes / 28,800, all 400 flagged**. LUMI MI250X guard: 19.7% raw → 0/1,000 (v3); 10k rerun **1/10,000 (FAIL)**, earlier 0/10k not reproduced.
 
 > **Live evidence dashboard:** https://gamai-io.github.io/demo/
 
