@@ -7,7 +7,7 @@
 - **Repository:** https://github.com/gamai-io/crossnode-bench
 - **Code DOI:** https://doi.org/10.5281/zenodo.23933835
 - **License:** Apache-2.0 (code and included data)
-- **Contact:** renato@gamatrade.ba
+- **Contact:** research@example.org
 
 ## Motivation
 The pack supports reproducible evaluation of two failure modes in tool-using AI agents:

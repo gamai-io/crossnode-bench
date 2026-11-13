@@ -7,7 +7,7 @@ authors:
   - family-names: "Schuster"
     given-names: "Renato"
     affiliation: "GAMA/gamAI, Usora, Bosnia and Herzegovina"
-    email: "renato@gamatrade.ba"
+    email: "research@example.org"
 repository-code: "https://github.com/gamai-io/crossnode-bench"
 url: "https://github.com/gamai-io/crossnode-bench/tree/main/dataset"
 license: "Apache-2.0"

@@ -44,7 +44,7 @@ LUMI MI250X campaign E1–E6 plus an objectively scorable benchmark suite (v2).
 - Guard bench: `max_tokens` was missing from the request payload, so vLLM generated
   up to `max_model_len` and 116/200 requests timed out. Now `--max-tokens 512`,
   `--timeout 300`, configurable `READY_TRIES` for 70B-class models.
-- "Honest" checker counted the year in `VP2026` as a customer count; years and
+- "Honest" checker counted the year in `DOC-2026` as a customer count; years and
   alphanumeric identifiers are now excluded (a 1/10,000 "false success" was a
   measurement false positive and is now 0/10,000).
 
