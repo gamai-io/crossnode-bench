@@ -10,7 +10,8 @@ Start with [`DATASHEET.md`](DATASHEET.md). It states exactly what is included an
 ## Contents
 ```
 crossnode/tasks.json                 16 task definitions
-crossnode/aggregate.json             25,600-trial aggregate (raw logs not included)
+crossnode/aggregate.json             aggregate (raw per-trial logs of this run are NOT included)
+evidence_chained.jsonl.gz            raw 12,344-record chain+Merkle pack (recountable; see DATASHEET)
 guard/blind_multilingual.jsonl       40-item blind corpus (DE/FR/ES/BS)
 guard/blind_multilingual_results.json
 guard/aggregate.json                 40-item + 6,900 generated-corpus aggregates
@@ -29,7 +30,7 @@ vultr/VULTR_2026-11-09.md            Vultr fleet summary and caveats
 - Claim verification / receipts: https://github.com/gamai-io/proofgate-runtime
 
 ## Caveats
-- The 25,600 run is a **controlled detection-recall test**, not a field rate.
+- The 25,600 cross-node aggregate is a **controlled detection-recall test**, not a field rate; its raw per-trial logs are not in this pack. Raw logs that ARE included: 12,344 chained records and the Vultr honest/liar fleet files.
 - The guard blind set is **40 items, self-authored**; 96.7% is a baseline.
 - LUMI guard v3 rerun is **1/10,000 (0.01%) — FAIL**, not zero; it uses 12 prompt templates (~833 repetitions each), not 10,000 distinct tasks. The earlier 0/10k was not reproduced.
 - The Vultr liar run is a controlled `MockLiar` wrapper around a real node; it flagged **400/400** lying probe claims. It is a detection test, not a field rate.

@@ -40,6 +40,25 @@ It is a measurement pack, not a training corpus.
 
 If you need raw logs for independent re-analysis, contact the maintainer. Do not assume the aggregate can be re-derived from the included files alone.
 
+## Raw evidence inventory (what can be recounted independently)
+
+Only the rows marked **yes** have raw per-trial JSONL in the public artifact; every other
+number is aggregate-only and must not be described as recountable.
+
+| Experiment | Raw JSONL | Where | Records |
+|---|---|---|---|
+| Cross-node runs (36 runs, 6/8 nodes), incl. 918 probes and 53 false successes | **yes** | `dataset/evidence_chained.jsonl.gz` (repo) and `evidence_chained.jsonl` (Zenodo), SHA-256 chain + Merkle root | 12,344 |
+| Real 9-node Vultr fleet, honest | **yes** | `results/vultr-fleet-2026-11-09-200/honest/evidence.jsonl.gz`; Zenodo `vultr_honest_evidence.jsonl.gz` | 25,600 |
+| Real 9-node Vultr fleet, controlled liar (`MockLiar`) | **yes** | `results/vultr-fleet-2026-11-09-200/liar/evidence.jsonl.gz`; Zenodo `vultr_liar_evidence.jsonl.gz` | 28,800 (400 FS) |
+| LUMI E1 36,550 guarded requests and the 10,000-request concurrent run | **no** | aggregate only (`dataset/lumi/aggregate.json`) | — |
+| LUMI 50-task × 6-model false-success audit | **no** | aggregate only | — |
+| Prompt-injection guard, 6,900 generated corpus | **no** | aggregate only | — |
+| Prompt-injection guard, 40-item blind set | **yes** (corpus + per-item results) | `dataset/guard/blind_multilingual.jsonl`, `blind_multilingual_results.json` | 40 |
+
+Recount commands and expected outputs are in the root `EVIDENCE.md` and in
+`dataset/RECOUNT.md`. The chain verifier (`tools/evidence.py`) is offline and does not
+trust this repository: it recomputes every hash and the Merkle root from the records.
+
 ## Collection
 - **Cross-node:** 8 nodes × 16 tasks × 200 runs = 25,600 controlled probes. A controlled share (6.25%) of probes carried deliberately dishonest claims; the evidence gate flagged them. Read/action/cross tasks produced 0 false successes.
 - **Guard blind set:** 40 items authored for this check (30 attacks in DE/FR/ES/BS, 10 benign). Lexical-only blocked 4/30; lexical + bge-m3 blocked 29/30 with 0/10 false positives; one German wording missed.
