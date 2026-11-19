@@ -50,9 +50,11 @@ number is aggregate-only and must not be described as recountable.
 | Cross-node runs (36 runs, 6/8 nodes), incl. 918 probes and 53 false successes | **yes** | `dataset/evidence_chained.jsonl.gz` (repo) and `evidence_chained.jsonl` (Zenodo), SHA-256 chain + Merkle root | 12,344 |
 | Real 9-node Vultr fleet, honest | **yes** | `results/vultr-fleet-2026-11-09-200/honest/evidence.jsonl.gz`; Zenodo `vultr_honest_evidence.jsonl.gz` | 25,600 |
 | Real 9-node Vultr fleet, controlled liar (`MockLiar`) | **yes** | `results/vultr-fleet-2026-11-09-200/liar/evidence.jsonl.gz`; Zenodo `vultr_liar_evidence.jsonl.gz` | 28,800 (400 FS) |
-| LUMI E1 36,550 guarded requests and the 10,000-request concurrent run | **no** | aggregate only (`dataset/lumi/aggregate.json`) | — |
-| LUMI 50-task × 6-model false-success audit | **no** | aggregate only | — |
+| LUMI E1 guard/model campaign, per request | **yes** | `dataset/lumi/raw/lumi_guard_model_101140.jsonl.gz` (101,140 records over 12 run_ids) + `dataset/lumi/raw/e1_driver.log` | 101,140 |
+| Cross-node controlled 25,600-trial run (8 nodes x 16 tasks x 200 runs; liar share) | **yes** | `dataset/lumi/raw/trust_evidence_25600.jsonl.gz` (sibling 19,200 run in `trust_evidence_19200.jsonl.gz`) | 25,600 + 19,200 |
+| LUMI 50-task × 6-model false-success audit | **no** (raw records are not in the archive) | aggregate only | — |
 | Prompt-injection guard, 6,900 generated corpus | **no** | aggregate only | — |
+| LUMI E6 invoice gate (BiH VAT 17%) | partial | `dataset/lumi/raw/e6_SHA256SUMS.txt` (checksums, not per-case records) | 1,109 + 391 |
 | Prompt-injection guard, 40-item blind set | **yes** (corpus + per-item results) | `dataset/guard/blind_multilingual.jsonl`, `blind_multilingual_results.json` | 40 |
 
 Recount commands and expected outputs are in the root `EVIDENCE.md` and in

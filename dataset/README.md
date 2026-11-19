@@ -18,6 +18,7 @@ guard/aggregate.json                 40-item + 6,900 generated-corpus aggregates
 lumi/prompts_v2.json                 110 LUMI prompts
 lumi/results.schema.json
 lumi/aggregate.json                  1,000 raw + 10,000 guarded samples (12 templates × ~833)
+lumi/raw/                            per-request LUMI records (101,140) and controlled 25,600-trial evidence; see lumi/raw/README.md
 vultr/aggregate.json                 real 9-node Vultr fleet, 200 rounds (honest + liar)
 vultr/VULTR_2026-11-09.md            Vultr fleet summary and caveats
 ```
