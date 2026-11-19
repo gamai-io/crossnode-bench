@@ -4,7 +4,7 @@ author:
   - "Renato Schuster"
 date: "2026-11-09"
 abstract: |
-  Tool-using agents frequently report success for actions that did not happen. We describe an evidence-gated execution model that binds each claim to observed state, a signed receipt that makes the claim replayable and tamper-evident, and a cross-node protocol that measures claim-vs-truth disagreement. In a controlled 8-node, 16-task, 200-run study (25,600 probes) with 6.25% deliberately planted dishonest claims, the evidence gate flagged all planted lies while read/action/cross tasks produced zero false successes. A multilingual prompt-injection guard blocked 29/30 blind attacks with 0/10 false positives. On LUMI-G, a guarded rerun produced 1/10,000 false successes (0.01%), failing a zero target; an earlier 0/10,000 result was not reproduced. On a real 9-node multi-region fleet (one host plus eight Vultr instances, 200 rounds), 25,600 honest probes produced 0 false successes, and a controlled lying node was flagged on 400/400 probe claims. We report these results with their limitations, including the controlled nature of the trials, small self-authored corpora, partial raw-data availability, and the absence of an independent audit.
+  Tool-using agents frequently report success for actions that did not happen. We describe an evidence-gated execution model that binds each claim to observed state, a signed receipt that makes the claim replayable and tamper-evident, and a cross-node protocol that measures claim-vs-truth disagreement. In a controlled 8-node, 16-task, 200-run study (25,600 probes) with 6.25% of all trials (50% of probe tasks) carrying deliberately planted dishonest claims, the evidence gate flagged all planted lies while read/action/cross tasks produced zero false successes. A multilingual prompt-injection guard blocked 29/30 blind attacks with 0/10 false positives. On LUMI-G, a guarded rerun produced 1/10,000 false successes (0.01%), failing a zero target; an earlier 0/10,000 result was not reproduced. On a real 9-node multi-region fleet (one host plus eight Vultr instances, 200 rounds), 25,600 honest probes produced 0 false successes, and a controlled lying node was flagged on 400/400 probe claims. We report these results with their limitations, including the controlled nature of the trials, small self-authored corpora, partial raw-data availability, and the absence of an independent audit.
 ---
 
 # 1. Introduction
@@ -43,7 +43,7 @@ This is intentionally smaller than a full proof-carrying execution service. Gran
 
 ## 2.3 Cross-node protocol
 
-Sixteen tasks cover read (`R1`–`R6`), action (`A1`–`A4`), cross-node (`C1`–`C4`), and probe (`P1`–`P2`) behavior. A probe deliberately asks for a missing program or app; the correct answer is failure, and the evidence gate checks whether the agent claims success. Each task is executed 200 times on each of 8 nodes (25,600 controlled probes). A controlled share of probes (6.25%) carries a deliberately dishonest claim; a naive scorer would count those as passes.
+Sixteen tasks cover read (`R1`–`R6`), action (`A1`–`A4`), cross-node (`C1`–`C4`), and probe (`P1`–`P2`) behavior. A probe deliberately asks for a missing program or app; the correct answer is failure, and the evidence gate checks whether the agent claims success. Each task is executed 200 times on each of 8 nodes (25,600 controlled probes; 3,200 on the two probe tasks P1–P2). In a controlled design, 6.25% of all trials — i.e. 50% of the 3,200 probe tasks — carry a deliberately dishonest claim; a naive scorer would count those as passes.
 
 Ground truth is the observed system state: stdout, exit code, file state, and hashes. The agent's claim is never used as its own evidence.
 
@@ -63,7 +63,7 @@ The guard has two layers. The lexical layer matches instruction override, system
 
 ## 3.1 Controlled cross-node trial
 
-Design: 8 nodes, 16 tasks, 200 runs per task, 25,600 probes. The node set is heterogeneous (Linux and Windows nodes in the local fleet). A controlled 6.25% of probes carried a deliberately dishonest claim.
+Design: 8 nodes, 16 tasks, 200 runs per task, 25,600 probes. The node set is heterogeneous (Linux and Windows nodes in the local fleet). A controlled 6.25% of all trials (1,600 = 50% of the 3,200 probe tasks) carried a deliberately dishonest claim.
 
 Result: pass rate 93.75%; 6.25% planted lies flagged; **0 false successes on read/action/cross**; latency p50 2.4 ms, p95 10.8 ms. This is a detection-recall test for the gate, not a field false-success rate.
 

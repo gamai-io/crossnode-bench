@@ -1,7 +1,7 @@
 [![CI](https://github.com/gamai-io/crossnode-bench/actions/workflows/ci.yml/badge.svg)](https://github.com/gamai-io/crossnode-bench/actions/workflows/ci.yml)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24092188.svg)](https://doi.org/10.5281/zenodo.24092188) (v1.4.0; concept [10.5281/zenodo.23920505](https://doi.org/10.5281/zenodo.23920505))
 
-**Latest: v1.5.0** — LUMI campaign E1–E6: **36,550 guard requests, 0 errors, 0 false successes** (Qwen2.5-7B 114 rps @conc256; Llama-3.3-70B 28.7 rps; 10,000-request run 0/10,000); deterministic invoice gate **recall 1,109/1,109, FP 0/391**; adaptive injection **V1 33% detection / 35% FP → V2 90.1% / 2.5%** (out-of-sample 85.7% / 3.5%); reproducibility is **not** bit-identical under continuous batching (b4 differs 2/100 at temperature 0).
+**Latest: v1.5.0** — LUMI campaign E1–E6: **30,798 fail-closed gate records with 0 false successes** vs **70,342 unguarded model records with 5,696 false successes (8.10%)** (Qwen2.5-7B 114 rps @conc256; Llama-3.3-70B 28.7 rps); the earlier "36,550 under the gate, 0 false-success" figure is not reproducible from the archive and is no longer used; deterministic invoice gate **recall 1,109/1,109, FP 0/391**; adaptive injection **V1 33% detection / 35% FP → V2 90.1% / 2.5%** (out-of-sample 85.7% / 3.5%); reproducibility is **not** bit-identical under continuous batching (b4 differs 2/100 at temperature 0).
 Previous: **v1.4.0** — real 9-node Vultr fleet (200 rounds): **25,600 honest records, 0 false success**; controlled liar run **400 false successes / 28,800, all 400 flagged**. LUMI MI250X guard: 19.7% raw → 0/1,000 (v3); 10k rerun **1/10,000 (FAIL)**, earlier 0/10k not reproduced.
 
 > **Live evidence dashboard:** https://gamai-io.github.io/demo/
@@ -116,7 +116,7 @@ Apache-2.0.
 
 Run on LUMI-C (CPU only, ~0 GPU-h), claim-vs-truth across heterogeneous nodes:
 
-- **8 nodes × 16 tasks × 200 runs = 25,600 trials** — pass rate **93.75%**, false-success **6.25%** (1,600 dishonest claims flagged), **0 false-success on read / action / cross**, latency p50 **2.4 ms** / p95 10.8 ms.
+- **8 nodes × 16 tasks × 200 runs = 25,600 trials** — pass rate **93.75%**, false-success **6.25% of all trials** (1,600 planted dishonest claims = **50% of the 3,200 probe tasks**; detector ceiling, **not** a field rate), 0 false-success on read/action/cross (by construction: liars injected only on probe tasks P1–P2), latency p50 **2.4 ms** / p95 10.8 ms.
 - 4 nodes × 300 runs = 19,200 trials — identical 93.75% / 6.25%.
 
 Reproduce: `sbatch --partition=standard --nodes=8 --export=ALL,RUNS=200 sbatch-f2-crossnode.sh` (EHPC `eurohpc-project`; `small` partition allows max 4 nodes).
@@ -127,4 +127,4 @@ Reproduce: `sbatch --partition=standard --nodes=8 --export=ALL,RUNS=200 sbatch-f
 - [`dataset/README.md`](dataset/README.md) — task manifest, guard blind set, LUMI prompts, aggregates.
 - [`paper/preprint.pdf`](paper/preprint.pdf) — *Evidence-Gated Agent Execution* (preprint draft, 5 pages).
 
-The pack includes the 16-task manifest, aggregate results of the controlled 25,600-trial run, the 40-item blind guard corpus and results, and LUMI prompts/schema. Raw per-trial logs for the 25,600 and 10,000 runs, and the 6,900 generated guard corpus, are **not** included. LUMI guarded rerun is **1/10,000 (0.01%) — FAIL**; the earlier 0/10k was not reproduced.
+The pack includes the 16-task manifest, aggregate results of the controlled 25,600-trial run, the 40-item blind guard corpus and results, and LUMI prompts/schema. Raw per-trial logs for the 25,600 controlled run **are** included (`dataset/lumi/raw/trust_evidence_25600.jsonl.gz`); the 10,000 LUMI run and the 6,900 generated guard corpus are **not** included. LUMI guarded rerun is **1/10,000 (0.01%) — FAIL**; the earlier 0/10k was not reproduced.
