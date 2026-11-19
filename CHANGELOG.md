@@ -7,7 +7,8 @@ All notable changes to this artifact. Format: Keep a Changelog, SemVer.
 LUMI MI250X campaign E1–E6 plus an objectively scorable benchmark suite (v2).
 
 ### Measured results
-- **E1 (scale, FSR):** 10 cells, **36,550 requests, 0 errors, 0 false successes**.
+- **E1 (scale, FSR):** earlier "36,550 requests, 0 errors, 0 false successes" is **withdrawn** —
+  not reproducible. v1.1 recount: **30,798 gated records, 0 false successes**; 70,342 unguarded records, 5,696 false successes (8.10%). LUMI 10k rerun: 1/10,000 (FAIL).
   Qwen2.5-7B: 88.2 rps @conc128 → **114.1 rps @conc256**; a 10,000-request run at
   conc512 gives **0/10,000** false success. Llama-3.3-70B: 22.6 → **28.7 rps**,
   0/5,000 per cell. Saturation points: 7B at conc256, 70B at conc256 (TTFT explodes

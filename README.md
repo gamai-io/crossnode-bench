@@ -117,7 +117,7 @@ Apache-2.0.
 Run on LUMI-C (CPU only, ~0 GPU-h), claim-vs-truth across heterogeneous nodes:
 
 - **8 nodes × 16 tasks × 200 runs = 25,600 trials** — pass rate **93.75%**, false-success **6.25% of all trials** (1,600 planted dishonest claims = **50% of the 3,200 probe tasks**; detector ceiling, **not** a field rate), 0 false-success on read/action/cross (by construction: liars injected only on probe tasks P1–P2), latency p50 **2.4 ms** / p95 10.8 ms.
-- 4 nodes × 300 runs = 19,200 trials — identical 93.75% / 6.25%.
+- 4 nodes × 16 tasks × 300 runs = 19,200 trials — identical 93.75% / 6.25%.
 
 Reproduce: `sbatch --partition=standard --nodes=8 --export=ALL,RUNS=200 sbatch-f2-crossnode.sh` (EHPC `eurohpc-project`; `small` partition allows max 4 nodes).
 
