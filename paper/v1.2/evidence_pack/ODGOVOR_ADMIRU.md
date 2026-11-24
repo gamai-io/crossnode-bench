@@ -1,6 +1,6 @@
 # Odgovor na zahtjev za dokazima — LUMI-G kampanja (E1)
 
-Datum: 24.11.2026. Izvor podataka: artifact v1.6.3, `dataset/lumi/raw/lumi_guard_model_101140.jsonl.gz` (101.140 zapisa, 24 run_id).
+Datum: 24.11.2026. Izvor podataka: artifact v1.6.4 (10.5281/zenodo.24502948), data fajlovi nepromijenjeni od v1.6.3, `dataset/lumi/raw/lumi_guard_model_101140.jsonl.gz` (101.140 zapisa, 24 run_id).
 
 Tvoj mail od 19.11. traži osam stvari. Ispod je za svaku: gdje je, šta dokazuje i — gdje nešto **nije** zabilježeno — šta nedostaje. Ništa ne tvrdim da postoji ako ne postoji.
 
@@ -36,6 +36,8 @@ U istom fajlu, polje `expect`: `exact` (Sarajevo, 4), `number` (246,5 / 2808,0 u
 Provjera je u `run_bench.py`, funkcija `check_expect()` — normalizacija teksta, numeričko poređenje s tolerancijom, provjera zabranjenog/obaveznog sadržaja. **To nije semantička provjera**: ako model napiše „oko 247" ili „246,50 KM", `number` padne. Zato je u radu Mistral izdvojen (§4.5) i zašto §6 tačka 9 kaže da je mjera osjetljiva na format.
 
 ## 3. Verzija guard mehanizma
+
+**Ažurirano u v1.6.4:** `LUMI_RUN_MANIFEST.json` navodi guard po runu — `v3` za pet runova od 04.11 (dokumentovano), `null` + razlog za runove od 09/10.11. Ne pogađam.
 
 **Kod:** `run_bench.py`, funkcija `guard_answer()` (deterministička kapija prije modela), verzija **v3**, dokumentovana u `LUMI_2026-11-04.md`.
 

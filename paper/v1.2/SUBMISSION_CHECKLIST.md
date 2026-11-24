@@ -21,7 +21,8 @@ Everything marked **[you]** needs your account or your decision.
 
 ## 2. Artifact v1.6.3 (Zenodo) — **PUBLISHED 2026-11-24**
 
-**Live:** https://doi.org/10.5281/zenodo.24502789 (concept 10.5281/zenodo.23920505, 25 files, 3 authors).
+**Live:** v1.6.4 https://doi.org/10.5281/zenodo.24502948 (29 files) — adds `lumi_prompts_v1.json`, `LUMI_RUN_MANIFEST.json`, schema v1.1, `RELEASE_v1.6.4.md`; data files unchanged.
+Previous: v1.6.3 https://doi.org/10.5281/zenodo.24502789. Concept DOI 10.5281/zenodo.23920505 always resolves to the latest.
 
 Deposit on the **existing record**, "New version":
 

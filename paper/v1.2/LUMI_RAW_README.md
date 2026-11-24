@@ -16,6 +16,10 @@ Total: **101,140 records, 24 run identifiers, 12 case types, 3 models.**
 - 3 runs of 1,000 records armed the gate on a subset of the five (`lumi-20261104-013504`, `lumi-20261104-014029`, `lumi-20261104-015816`)
 - 6 runs (26,640 records) ran entirely without the gate
 
+## Test set and run manifest
+
+The 12-case prompt set with expected answers is `lumi_prompts_v1.json`; `sha256(prompt)` matches the `prompt_sha` of every record 12/12. Per-run configuration (model, records, gated split, repetitions per case, guard version where documented, sampling) is in `LUMI_RUN_MANIFEST.json`.
+
 ## Runs
 
 | run_id | records | gated | false_success | model |

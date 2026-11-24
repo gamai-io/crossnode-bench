@@ -2,6 +2,28 @@
 
 All notable changes to this artifact. Format: Keep a Changelog, SemVer.
 
+## [1.6.4] - 2026-11-24
+
+Release for reproducibility requests: add the test set and the recorded configuration, change no data.
+
+### Added
+- `lumi_prompts_v1.json` — 12-case prompt set with expected answers; `sha256(prompt)` equals the
+  `prompt_sha` field of the campaign records 12/12.
+- `LUMI_RUN_MANIFEST.json` — per run: model and recorded model path, records, gated/ungated split,
+  case types, repetitions per case, guard applied/version where documented, prompt-set hash,
+  temperature 0 / seed 42, start/finish timestamps.
+- `results.schema.json` v1.1 — optional `guard_version`, `guard_code_sha256`, `model_sha256`,
+  `model_revision`, `tensor_parallel_size`, `max_num_seqs`, `temperature`, `seed`.
+
+### Explicitly not available for the 2026-11 campaign
+- model weight digests, tensor-parallel degree and `max_num_seqs` per run, per-record guard version
+  (only the `harness.guard` boolean exists), guard code hash at run time.
+  `LUMI_RUN_MANIFEST.json` lists these under `not_recorded`; the manifest states the guard version
+  only for the five 2026-11-04 runs, where it is documented as v3.
+
+### Unchanged
+- All data files and their digests; every number in manuscript v1.2.
+
 ## [1.5.0] - 2026-11-10
 
 LUMI MI250X campaign E1–E6 plus an objectively scorable benchmark suite (v2).

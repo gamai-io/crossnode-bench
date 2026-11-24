@@ -2,7 +2,7 @@
 
 ## Identity
 - **Name:** CrossNode-Bench: claim-vs-truth evidence for AI agents
-- **Version:** 1.6.3 (2026-11-24)
+- **Version:** 1.6.4 (2026-11-24)
 - **Maintainer:** Renato Šuster, GAMA TRADE d.o.o. / gamAI, Usora, Bosnia and Herzegovina
 - **Repository:** https://github.com/gamai-io/crossnode-bench
 - **Artifact series (concept DOI):** https://doi.org/10.5281/zenodo.23920505
@@ -102,6 +102,12 @@ If you use this pack, cite the repository and the code DOI above. For the prepri
 - **Prompts** are synthetic, derived from the authors' task templates. They contain no customer or supplier records, no personal names, addresses or telephone numbers, and no personal e-mail addresses. A scan of all 101,140 `text` fields returns six e-mail-shaped strings, all placeholders (`vase_kompanije_email@domena.com`, `vaša.e.posta@kompanija.com`, `vaša.kompanija@domena.co`, `@adresa.com`), zero 13-digit identification numbers, and no telephone numbers (the single apparent match is a shell `PATH` string). Internal schema identifiers (for example `vp2026`) are retained because they are part of the prompt text and affect `prompt_sha`.
 - **Model outputs:** Qwen2.5-7B and Mistral-Small-3.2-24B under Apache-2.0; Llama-3.3-70B under the Llama 3.3 Community License, redistributed with attribution, without use of the outputs to train or improve another language model. See `LICENSES_AND_OUTPUTS.md`.
 - **Hash-and-length variant:** replacing `text` with `text_sha256` and `text_len` for Llama runs changes no reported number, because all counts use `false_success`, `harness.guard`, `run_id` and `case` only.
+
+## Recorded configuration and its limits (v1.6.4)
+
+`lumi_prompts_v1.json` contains the 12-case prompt set with the expected answer per case; `sha256(prompt)` equals the `prompt_sha` stored in the records for all 12 cases. `LUMI_RUN_MANIFEST.json` lists, per run: model name and the model path recorded in the rows, record counts, gated/ungated split, case types, repetitions per case, whether the gate was applied and its version where documented, the prompt-set hash, sampling parameters (temperature 0, seed 42) and timestamps.
+
+Not captured at run time and therefore stated as missing rather than inferred: model weight digests, tensor-parallel degree and `max_num_seqs` per run, guard version per record (only the `harness.guard` boolean exists), and the guard implementation hash. Schema v1.1 reserves optional fields for all of these so that a future campaign records them.
 
 ## Gate structure in the LUMI-G campaign
 
