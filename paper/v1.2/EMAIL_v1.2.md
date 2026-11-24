@@ -23,6 +23,8 @@ What changed, in short:
 
 Tested commands: `python3 recount.py --honest … --liar … --trust … --trust2 … --lumi …` prints every number in Sections 4.1–4.5 and Appendix A.2 and matches `recount_output.json`.
 
+Published: preprint https://doi.org/10.5281/zenodo.24502881 · artifact v1.6.3 https://doi.org/10.5281/zenodo.24502789.
+
 Attached: `manuscript_v1.2.pdf`, `MANUSCRIPT.md`, `RESPONSE_TO_REVIEW.md`, `recount.py`, `recount_output.json`, `EVIDENCE_LINKS.md`, `CHANGELOG_v1.2.md`.
 
 Best regards,
@@ -54,6 +56,8 @@ Ukratko:
 10. **Agregati ostaju agregati** i tako su deklarisani na tri mjesta.
 
 Provjereno: `python3 recount.py --honest … --liar … --trust … --trust2 … --lumi …` daje svaki broj iz §4.1–4.5 i Appendix A.2 i poklapa se sa `recount_output.json`.
+
+Objavljeno: preprint https://doi.org/10.5281/zenodo.24502881 · artefakt v1.6.3 https://doi.org/10.5281/zenodo.24502789.
 
 Prilozi: `manuscript_v1.2.pdf`, `MANUSCRIPT.md`, `RESPONSE_TO_REVIEW.md`, `recount.py`, `recount_output.json`, `EVIDENCE_LINKS.md`, `CHANGELOG_v1.2.md`.
 

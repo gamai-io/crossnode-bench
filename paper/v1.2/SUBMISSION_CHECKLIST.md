@@ -19,7 +19,9 @@ Everything marked **[you]** needs your account or your decision.
 - [you] Authors, affiliations and funding in Appendix B.
 - [you] Decide whether the Llama text stays in the archive or a hash-only variant is published.
 
-## 2. Artifact v1.6.3 (Zenodo)
+## 2. Artifact v1.6.3 (Zenodo) — **PUBLISHED 2026-11-24**
+
+**Live:** https://doi.org/10.5281/zenodo.24502789 (concept 10.5281/zenodo.23920505, 25 files, 3 authors).
 
 Deposit on the **existing record**, "New version":
 
@@ -29,7 +31,9 @@ Deposit on the **existing record**, "New version":
 4. Everything else unchanged; the data digests in the paper stay valid.
 5. Publish, then confirm the new version DOI and keep citing the **concept DOI** `10.5281/zenodo.23920505`.
 
-## 3. Preprint v1.2 (new version, not an attachment)
+## 3. Preprint v1.2 — **PUBLISHED 2026-11-24**
+
+**Live:** https://doi.org/10.5281/zenodo.24502881 (type Preprint, CC-BY-4.0, manuscript v1.2 + MANUSCRIPT.md + EVIDENCE_LINKS.md).
 
 1. Upload `manuscript_v1.2.pdf` (+ optionally `MANUSCRIPT.md`).
 2. Type: **Preprint**. Keep the same record as the earlier preprint so the version chain is visible.
@@ -40,7 +44,7 @@ Deposit on the **existing record**, "New version":
 
 - [done] `dataset/lumi/raw/README.md`, `dataset/RECOUNT.md`, `dataset/DATASHEET.md`, `dataset/CITATION.cff`, `dataset/lumi/aggregate.json`, `dataset/lumi/LUMI_2026-11-04.md`, `.zenodo.json`, `README.md` updated.
 - [done] `paper/v1.2/` added (manuscript, response, changelog, email, evidence links, licence note, figure).
-- [you] `git add -A && git commit -m "v1.2: case-level gate analysis, provenance, docs"` and push.
+- [done] committed and pushed: `a5129d6` (code/data commit `65fe3d6` still resolves — HTTP 200).
 - [you] After the push, if the commit hash is no longer `65fe3d6`, tell me and I update §7, Appendix B and reference [1].
 
 ## 5. Sending
