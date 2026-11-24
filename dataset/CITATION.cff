@@ -8,6 +8,12 @@ authors:
     given-names: "Renato"
     affiliation: "GAMA TRADE d.o.o. / gamAI, Usora, Bosnia and Herzegovina"
     email: "renato@gamatrade.ba"
+  - family-names: "Agić"
+    given-names: "Admir"
+    affiliation: "Kolektiv EU"
+  - family-names: "Jeftić"
+    given-names: "Boško"
+    affiliation: "City Administration of Zenica; University of Vitez"
 repository-code: "https://github.com/gamai-io/crossnode-bench"
 url: "https://github.com/gamai-io/crossnode-bench/tree/main/dataset"
 license: "Apache-2.0"
@@ -32,6 +38,10 @@ preferred-citation:
   authors:
     - family-names: "Šuster"
       given-names: "Renato"
+    - family-names: "Agić"
+      given-names: "Admir"
+    - family-names: "Jeftić"
+      given-names: "Boško"
   year: 2026
   month: 11
   note: "Manuscript v1.2, 24 November 2026"

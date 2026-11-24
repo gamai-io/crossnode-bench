@@ -17,7 +17,8 @@ Integrity-only: E is used for integrity verification and no rate in the paper is
 
 ## Permanent identifiers
 
-- Artifact v1.6.3 (concept DOI, always latest): https://doi.org/10.5281/zenodo.23920505
+- Artifact v1.6.3: https://doi.org/10.5281/zenodo.24502789
+- Concept DOI (always latest): https://doi.org/10.5281/zenodo.23920505
 - Previous versions: v1.6.2 https://doi.org/10.5281/zenodo.24378026 · v1.6.0 https://doi.org/10.5281/zenodo.24369933
 - Repository commit: https://github.com/gamai-io/crossnode-bench/commit/65fe3d6
 - LUMI per-run and per-case table: `dataset/lumi/raw/README.md` (mirrors `LUMI_RAW_README.md` in the artifact)

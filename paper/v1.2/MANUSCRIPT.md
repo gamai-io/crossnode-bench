@@ -1,6 +1,7 @@
 ---
 title: "Evidence-Gated Verification of Tool-Using Agent Execution Across a Heterogeneous Multi-Region Fleet"
 subtitle: "A Raw-Evidence-Based Experimental Study of Controlled Execution-Claim Verification (v1.2, validity and provenance corrections)"
+author: "Renato Šuster, Admir Agić, Boško Jeftić"
 date: "24 November 2026"
 ---
 
@@ -295,7 +296,7 @@ The same caution applies to model comparisons. Qwen2.5-7B, Llama-3.3-70B and Mis
 Everything required to recompute the reported numbers is public and versioned.
 
 - **Benchmark and code:** https://github.com/gamai-io/crossnode-bench, commit `65fe3d6` (Apache-2.0).
-- **Archived artifact (v1.6.3):** https://doi.org/10.5281/zenodo.23920505 (concept DOI, always resolves to the latest version; it supersedes v1.6.2, https://doi.org/10.5281/zenodo.24378026, and v1.6.0, https://doi.org/10.5281/zenodo.24369933). Version 1.6.3 changes documentation only — the corrected per-run README and a licence/provenance note — so the data-file digests below remain valid.
+- **Archived artifact (v1.6.3):** https://doi.org/10.5281/zenodo.24502789 (version DOI), concept DOI https://doi.org/10.5281/zenodo.23920505 (always resolves to the latest version). It supersedes v1.6.2, https://doi.org/10.5281/zenodo.24378026, and v1.6.0, https://doi.org/10.5281/zenodo.24369933. Version 1.6.3 changes documentation only — the corrected per-run README and a licence/provenance note — so the data-file digests below remain valid.
 - **Raw files and digests:**
 
 | File | SHA-256 |
@@ -390,19 +391,19 @@ Aggregate-only results not included in the quantitative findings: the 6,900-item
 
 # Appendix B. Declarations
 
-- Authors and affiliations: _to be completed_
+- Authors and affiliations: Renato Šuster (GAMA TRADE d.o.o. / gamAI, Usora, Bosnia and Herzegovina), Admir Agić (Kolektiv EU), Boško Jeftić (City Administration of Zenica; University of Vitez).
 - Corresponding author: Renato Šuster, GAMA TRADE d.o.o. / gamAI, Usora, Bosnia and Herzegovina (renato@gamatrade.ba)
 - Funding: _to be declared_
 - Conflict of interest: the author develops the verification tooling evaluated in this paper; the benchmark, the raw records and the recount script are published so that the counts can be checked independently.
 - Ethics statement: no human subjects, no personal data. Prompts are synthetic and derived from the authors' task templates; a scan of all 101,140 text fields finds six e-mail-shaped strings, all placeholders, and no national identification numbers (Section 3.1).
-- Data availability: https://doi.org/10.5281/zenodo.23920505 (concept DOI, artifact v1.6.3)
+- Data availability: https://doi.org/10.5281/zenodo.24502789 (artifact v1.6.3); concept DOI https://doi.org/10.5281/zenodo.23920505
 - Code availability: https://github.com/gamai-io/crossnode-bench, commit `65fe3d6`
 
 # References
 
 [1] gamAI. CrossNode-Bench: claim-vs-truth evidence for AI agents. GitHub, commit `65fe3d6`, 2026. https://github.com/gamai-io/crossnode-bench
 
-[2] gamAI. CrossNode-Bench: claim-vs-truth evidence for AI agents, artifact v1.6.3. Zenodo, 2026. Concept DOI 10.5281/zenodo.23920505 (v1.6.2: 10.5281/zenodo.24378026; v1.6.0: 10.5281/zenodo.24369933).
+[2] R. Šuster, A. Agić, B. Jeftić. CrossNode-Bench: claim-vs-truth evidence for AI agents, artifact v1.6.3. Zenodo, 2026. https://doi.org/10.5281/zenodo.24502789 (concept DOI 10.5281/zenodo.23920505; v1.6.2: 10.5281/zenodo.24378026; v1.6.0: 10.5281/zenodo.24369933).
 
 [3] OpenTelemetry Authors. OpenTelemetry Documentation. https://opentelemetry.io/docs/
 
