@@ -1,21 +1,37 @@
 cff-version: 1.2.0
-message: "If you use this pack, cite the repository and the code DOI."
-title: "gamAI evidence benchmark pack: false-success and prompt-injection measurement"
-version: "0.1.0"
-date-released: "2026-11-05"
+message: "If you use this pack, cite the artifact (concept DOI) and the manuscript."
+title: "CrossNode-Bench: claim-vs-truth evidence for AI agents"
+version: "1.6.3"
+date-released: "2026-11-24"
 authors:
-  - family-names: "Schuster"
+  - family-names: "Šuster"
     given-names: "Renato"
-    affiliation: "GAMA/gamAI, Usora, Bosnia and Herzegovina"
-    email: "research@example.org"
+    affiliation: "GAMA TRADE d.o.o. / gamAI, Usora, Bosnia and Herzegovina"
+    email: "renato@gamatrade.ba"
 repository-code: "https://github.com/gamai-io/crossnode-bench"
 url: "https://github.com/gamai-io/crossnode-bench/tree/main/dataset"
 license: "Apache-2.0"
-doi: "10.5281/zenodo.23933835"
+doi: "10.5281/zenodo.23920505"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.23920505"
+    description: "Artifact series (concept DOI, always resolves to the latest version)"
+  - type: doi
+    value: "10.5281/zenodo.24378026"
+    description: "Artifact v1.6.2 (previous version)"
 keywords:
   - ai-agents
   - false-success
   - evidence-gate
-  - prompt-injection
   - benchmark
   - reproducibility
+  - lumi
+preferred-citation:
+  type: article
+  title: "Evidence-Gated Verification of Tool-Using Agent Execution Across a Heterogeneous Multi-Region Fleet"
+  authors:
+    - family-names: "Šuster"
+      given-names: "Renato"
+  year: 2026
+  month: 11
+  note: "Manuscript v1.2, 24 November 2026"

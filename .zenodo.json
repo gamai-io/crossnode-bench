@@ -4,23 +4,24 @@
   "access_right": "open",
   "license": "Apache-2.0",
   "language": "eng",
-  "version": "1.6.2",
+  "version": "1.6.3",
   "creators": [
     {
       "name": "Šuster, Renato",
-      "affiliation": "gamAI"
+      "affiliation": "GAMA TRADE d.o.o. / gamAI, Usora, Bosnia and Herzegovina"
     }
   ],
-  "description": "<p><b>v1.5.0 (2026-11-10):</b> LUMI MI250X campaign E1-E6. E1: guard throughput (Qwen2.5-7B 114.1 rps @conc256; Llama-3.3-70B 28.7 rps). The earlier 36,550/0-false-success figure is not reproducible and is no longer used; the v1.1 recount gives 30,798 gated records with 0 false successes and 70,342 unguarded records with 5,696 false successes (8.10%). E2: continuous batching at temperature 0 is NOT bit-identical (b4 differs 2/100). E3: adaptive injection, keyword guard 33.0% detection / 35.0% FP vs intent guard 90.1% / 2.5% (out-of-sample 85.7% / 3.5%). E4: TP1/TP2/TP4 results within noise. E5: 70B, 10,000 requests, 0 false successes. E6: deterministic invoice gate (BiH VAT 17%), recall 1,109/1,109, FP 0/391. Added benchmark v2: 700 generated, objectively scorable items in 4 blocks.</p><p>CrossNode-Bench measures whether an AI agent tells the truth about completed work. For each task the harness records the agent's claim, an independent probe on the target node, and a verdict; claim success plus truth failure is a false success.</p><p>Public artifact: 12,344 claim-vs-truth records from 36 runs on 6 heterogeneous nodes, with 53 false successes (0.43%). All false successes are probes. In a controlled run of 25,600 trials, 1,600 (6.25% of all trials = 50% of the 3,200 probe tasks) carried deliberately dishonest claims and all 1,600 were flagged. This is a detector-recall/ceiling test, not a field rate.</p><p>This deposit contains the specification (v1.2.2), the LUMI MI250X false-success guard results (19.7% raw → 0/1,000 PASS; the 10k rerun on 2026-11-04 was 1/10,000, FAIL — the earlier 0/10,000 was not reproduced), the harness, the public JSONL, a SHA-256 hash chain with a Merkle root, an offline verifier, JSON schemas, an OPA gate, and a keyless cosign + in-toto CI workflow. Verifying the artifact does not require this deposit: the chain and manifest are public and the verifier is offline.</p><p>v1.4.0 adds a real multi-region fleet run: 25,600 honest records (100% pass, 0 false-success) on 9 nodes (Contabo + 8 Vultr), and a controlled liar run (28,800 records, 400 false-successes, all 400 flagged). The liar is a MockLiar wrapper; this is a detection test, not a field rate.</p><p>What this deposit does not claim: no field false-success rate from the controlled test, no hardware root of trust, no Sigstore public transparency anchor, and no peer review.</p>",
+  "description": "<p><b>v1.6.3 (2026-11-24):</b> documentation release accompanying manuscript v1.2. No data file changes, so all data digests from v1.6.2 still hold. Replaces the per-run README with an English data description (run table with a gated column, per-case table, mapping to the numbers used in the paper), adds LICENSES_AND_OUTPUTS.md (model licences, prompt provenance, absence of personal data) and withdraws the internal notes that earlier versions carried in lumi/raw/README.md.</p><p>CrossNode-Bench measures whether an AI agent tells the truth about completed work. For each task the harness records the agent's claim, an independent probe on the target node, and a verdict; claim success plus truth failure is a false success.</p><p><b>v1.6 summary, as reported in manuscript v1.2 (all counts reproducible with recount.py):</b> Vultr honest fleet 25,600 records, 9 nodes, 0 false successes. Vultr controlled liar 28,800 records, 400 planted false successes, all flagged (MockLiar component; a detection test, not a field rate). Controlled cross-node run 25,600 records with 1,600 false successes; sibling run 19,200 with 1,200. LUMI-G campaign 101,140 records over 24 run ids: 30,798 gated records with 0 false successes and 70,342 unguarded with 5,696. The gate is assigned by case type within a run, so the manuscript also reports a case-level comparison: the five gated case types give 5,495 false successes in 11,353 ungated records and none in 30,798 gated records, and a matched pair of 10,000-record runs on the same model and day with identical prompt hashes gives 1,683 against 0. That comparison is quasi-experimental; no effect size is claimed.</p><p>The 12,344-record chained set (SHA-256 chain, Merkle root eda02d9cd4ff14d594d144c2d319bb3a3d1ea16569638238be14779da3d11d2d, offline verifier) is used for integrity verification only. No percentage is reported over it: all 53 false successes in that set lie inside the 918 probe records, so any ratio computed over the full 12,344 would mix probes and non-probes.</p><p>Earlier figures that are no longer used: financial \"36,550 requests under the gate, 0 false successes\" (not reproducible from the per-record harness.guard flags) and \"0/10,000 under the gate\" (the two 10,000-record runs with zero false successes contain 4,167 gated records each, so their zero applies to the whole run).</p><p><b>Contents:</b> spec v1.2.2, LUMI-G per-request campaign, controlled cross-node runs, Vultr fleet runs, chained evidence with Merkle root, offline verifier, JSON schemas, OPA gate, keyless cosign + in-toto CI workflow, LICENSES_AND_OUTPUTS.md, per-run/per-case README.</p><p><b>What this deposit does not claim:</b> no field false-success rate from controlled tests, no hardware root of trust, no Sigstore public transparency anchor, no peer review.</p><p>Aggregate-only material in this deposit (no per-record files): the 6,900-item generated prompt-injection corpus and the 50-task x 6-model audit. They are not part of the quantitative findings of the manuscript.</p>",
   "keywords": [
     "AI agents",
     "false success",
     "claim verification",
-    "evidence",
+    "evidence gate",
     "reproducibility",
     "cross-node benchmarking",
     "multi-region fleet",
-    "Vultr"
+    "LUMI",
+    "case-level comparison"
   ],
   "related_identifiers": [
     {
@@ -39,5 +40,5 @@
       "scheme": "url"
     }
   ],
-  "notes": "Artifact: https://gamai.io/crossnode-bench/evidence/evidence_chained.jsonl ; manifest: https://gamai.io/crossnode-bench/evidence/manifest.json ; merkle root eda02d9cd4ff14d594d144c2d319bb3a3d1ea16569638238be14779da3d11d2d ; Vultr results: https://github.com/gamai-io/crossnode-bench/tree/main/results/vultr-fleet-2026-11-09-200"
+  "notes": "Manuscript v1.2 accompanies this artifact. Concept DOI of the artifact series: 10.5281/zenodo.23920505. Recount: python3 recount.py --honest … --liar … --trust … --trust2 … --lumi … prints every number in the manuscript. Chained artifact: evidence_chained.jsonl + manifest.json, merkle root eda02d9cd4ff14d594d144c2d319bb3a3d1ea16569638238be14779da3d11d2d."
 }

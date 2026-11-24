@@ -1,13 +1,13 @@
-# Datasheet — gamAI evidence benchmark pack v0.1.0
+# Datasheet — CrossNode-Bench artifact
 
 ## Identity
-- **Name:** gamAI evidence benchmark pack
-- **Version:** 0.1.0 (2026-11-05)
-- **Maintainer:** Renato Schuster, GAMA/gamAI, Usora, Bosnia and Herzegovina
+- **Name:** CrossNode-Bench: claim-vs-truth evidence for AI agents
+- **Version:** 1.6.3 (2026-11-24)
+- **Maintainer:** Renato Šuster, GAMA TRADE d.o.o. / gamAI, Usora, Bosnia and Herzegovina
 - **Repository:** https://github.com/gamai-io/crossnode-bench
-- **Code DOI:** https://doi.org/10.5281/zenodo.23933835
-- **License:** Apache-2.0 (code and included data)
-- **Contact:** research@example.org
+- **Artifact series (concept DOI):** https://doi.org/10.5281/zenodo.23920505
+- **License:** Apache-2.0 (code and included data); model-output terms in `LICENSES_AND_OUTPUTS.md`
+- **Contact:** renato@gamatrade.ba
 
 ## Motivation
 The pack supports reproducible evaluation of two failure modes in tool-using AI agents:
@@ -34,8 +34,7 @@ It is a measurement pack, not a training corpus.
 ## What is NOT included
 - **Raw per-trial logs for the 25,600 cross-node trials.** Only the aggregate and task manifest are included.
 - **The 6,900-item generated guard corpus.** Only aggregate results are included.
-- **Raw 10,000 LUMI result records.** Only prompts, schema and aggregate results are included.
-- **The 10,000 LUMI samples are 12 prompt templates repeated ~833 times**, not 10,000 distinct tasks. The templates are in `gama-lumi-bench/bench_v2/prompts_v1.json` (Apache-2.0).
+- **The 10,000 LUMI samples are 12 prompt templates repeated ~833 times**, not 10,000 distinct tasks. The templates are in `gama-lumi-bench/bench_v2/prompts_v1.json` (Apache-2.0). The per-request records for the LUMI campaign *are* included since v1.5 (`lumi/raw/lumi_guard_model_101140.jsonl.gz`).
 - **Any industrial invoice/ERP data.** The Floor Copilot case study is separate and anonymized; no customer data is in this pack.
 
 If you need raw logs for independent re-analysis, contact the maintainer. Do not assume the aggregate can be re-derived from the included files alone.
@@ -47,7 +46,7 @@ number is aggregate-only and must not be described as recountable.
 
 | Experiment | Raw JSONL | Where | Records |
 |---|---|---|---|
-| Cross-node runs (36 runs, 6/8 nodes), incl. 918 probes and 53 false successes | **yes** | `dataset/evidence_chained.jsonl.gz` (repo) and `evidence_chained.jsonl` (Zenodo), SHA-256 chain + Merkle root | 12,344 |
+| Cross-node runs (36 runs, 6/8 nodes), incl. 918 probe records and 53 false successes (integrity set; no rate reported over it) | **yes** | `dataset/evidence_chained.jsonl.gz` (repo) and `evidence_chained.jsonl` (Zenodo), SHA-256 chain + Merkle root | 12,344 |
 | Real 9-node Vultr fleet, honest | **yes** | `results/vultr-fleet-2026-11-09-200/honest/evidence.jsonl.gz`; Zenodo `vultr_honest_evidence.jsonl.gz` | 25,600 |
 | Real 9-node Vultr fleet, controlled liar (`MockLiar`) | **yes** | `results/vultr-fleet-2026-11-09-200/liar/evidence.jsonl.gz`; Zenodo `vultr_liar_evidence.jsonl.gz` | 28,800 (400 FS) |
 | LUMI E1 guard/model campaign, per request | **yes** | `dataset/lumi/raw/lumi_guard_model_101140.jsonl.gz` (101,140 records over 12 run_ids) + `dataset/lumi/raw/e1_driver.log` | 101,140 |
@@ -64,7 +63,7 @@ trust this repository: it recomputes every hash and the Merkle root from the rec
 ## Collection
 - **Cross-node:** 8 nodes × 16 tasks × 200 runs = 25,600 controlled probes. A controlled share (6.25%) of probes carried deliberately dishonest claims; the evidence gate flagged them. Read/action/cross tasks produced 0 false successes.
 - **Guard blind set:** 40 items authored for this check (30 attacks in DE/FR/ES/BS, 10 benign). Lexical-only blocked 4/30; lexical + bge-m3 blocked 29/30 with 0/10 false positives; one German wording missed.
-- **LUMI:** raw model false-success 197/1,000 (19.7%); guard v3 10k rerun produced 1/10,000 (0.01%) and **failed** the zero target. The 10k run uses 12 prompt templates (~833 repetitions each), not 10,000 distinct tasks. The earlier 0/10,000 was not reproduced.
+- **LUMI:** raw model false-success 197/1,000 (19.7%). The archive holds four 10,000-record runs (two with 0, two with 1 false success), so a per-run zero is not a gated result; the gated aggregate is 30,798 records with 0 and the case-level comparison is in manuscript v1.2. The 1k/10k runs use 12 prompt templates (~83 and ~833 repetitions each), not 1,000/10,000 distinct tasks.
 - **Vultr fleet:** 9 nodes (Contabo + 8 Vultr) × 16 tasks × 200 rounds = 25,600 honest records, 0 false success. The controlled liar run adds a `MockLiar` wrapper around one Vultr node: 28,800 records, 400 false successes (1.39%), all 400 flagged.
 
 ## Labeling and validation
@@ -97,3 +96,13 @@ trust this repository: it recomputes every hash and the Merkle root from the rec
 
 ## Citation
 If you use this pack, cite the repository and the code DOI above. For the preprint, cite `paper/preprint.pdf`.
+
+## Provenance and licences (v1.6.3)
+
+- **Prompts** are synthetic, derived from the authors' task templates. They contain no customer or supplier records, no personal names, addresses or telephone numbers, and no personal e-mail addresses. A scan of all 101,140 `text` fields returns six e-mail-shaped strings, all placeholders (`vase_kompanije_email@domena.com`, `vaša.e.posta@kompanija.com`, `vaša.kompanija@domena.co`, `@adresa.com`), zero 13-digit identification numbers, and no telephone numbers (the single apparent match is a shell `PATH` string). Internal schema identifiers (for example `vp2026`) are retained because they are part of the prompt text and affect `prompt_sha`.
+- **Model outputs:** Qwen2.5-7B and Mistral-Small-3.2-24B under Apache-2.0; Llama-3.3-70B under the Llama 3.3 Community License, redistributed with attribution, without use of the outputs to train or improve another language model. See `LICENSES_AND_OUTPUTS.md`.
+- **Hash-and-length variant:** replacing `text` with `text_sha256` and `text_len` for Llama runs changes no reported number, because all counts use `false_success`, `harness.guard`, `run_id` and `case` only.
+
+## Gate structure in the LUMI-G campaign
+
+`harness.guard` follows the case type within a run (`mp03`, `mp04`, `mp05`, `mp06`, `mp12` gated; `mp01`, `mp02`, `mp07`–`mp11` not), so the record-level split between gated and unguarded records is not a randomised comparison. The manuscript reports a case-level comparison instead: 5,495 false successes in 11,353 ungated records of the five gated case types against 0 in 30,798 gated records, plus a matched pair of 10,000-record runs (1,683 against 0) on the same model, day and prompts. The seven never-gated case types give 201 in 58,989 (0.34%). That comparison is quasi-experimental and no effect size is claimed.
