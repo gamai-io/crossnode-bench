@@ -2,7 +2,7 @@
 
 All notable changes to this artifact. Format: Keep a Changelog, SemVer.
 
-## [Unreleased]
+## [1.7.0] - 2026-11-26
 
 Scoring correctness release: tests for the scorer and three defects they exposed. No data files
 and no published numbers change (`--demo` is still 48 records, 46 passed, 2 false successes).
@@ -23,6 +23,12 @@ and no published numbers change (`--demo` is still 48 records, 46 passed, 2 fals
   still wins when present; `rc == 0` is the fallback.
 - A4's ground truth was unconditionally `True` even though its command ends in `test ! -e`;
   a failed assertion reported as success was scored as a pass. `truth_ok` is now `rc == 0`.
+
+- `report.json` wrote an `evidence_sha256` computed over a re-serialised payload
+  (`json.dumps(records, sort_keys=True)`) instead of the file, so nobody could check it with
+  `sha256sum`. New runs store `evidence_file` plus the hash of the bytes on disk, and
+  `python3 crossnode.py --verify-report <report.json>` recomputes the hash and every count.
+  Reports published before this tag keep the old field; the README says not to trust it.
 
 ### Documentation
 - README: explicit rate denominators (`passed / records`), the `ok`/`rc` claim rule, node-level
