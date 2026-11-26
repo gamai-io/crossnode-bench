@@ -30,8 +30,13 @@ Each run writes `runs/<timestamp>/evidence.jsonl`, `report.json` and `REPORT.md`
 No dependencies, Python 3.10+.
 
 ```bash
-python3 crossnode.py --demo
+python3 crossnode.py --demo     # from a checkout
+python3 -m crossnode --demo     # same, after `pip install .`
+crossnode --demo                # console script installed by the package
 ```
+
+`pip install git+https://github.com/gamai-io/crossnode-bench@v1.7.0` installs the single
+`crossnode` module (no data or paper archive) and the `crossnode` command.
 
 Demo output on a clean machine:
 

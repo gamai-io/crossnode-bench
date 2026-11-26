@@ -12,3 +12,8 @@ tenants.json
 .git-credentials
 __pycache__/
 *.pyc
+
+# build artefacts
+build/
+dist/
+*.egg-info/

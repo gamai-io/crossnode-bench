@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "crossnode-bench"
+# README: "Latest: v1.7.0"; tag v1.7.0 points at the same tree.
+version = "1.7.0"
+description = "Measure agent honesty across heterogeneous nodes: the claim against ground truth on each node."
+readme = "README.md"
+# README: "No dependencies, Python 3.10+." The code uses PEP 585/604 syntax
+# (list[str], str | None) and the CI matrix starts at 3.10.
+requires-python = ">=3.10"
+license = "Apache-2.0"
+authors = [{ name = "gamAI" }]
+keywords = ["agents", "benchmark", "false-success", "evidence", "verification"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.12",
+  "Operating System :: OS Independent",
+  "Topic :: Software Development :: Quality Assurance",
+]
+dependencies = []
+
+[project.scripts]
+# Same entry point as `python3 crossnode.py` / `python3 -m crossnode`.
+crossnode = "crossnode:cli"
+
+[project.urls]
+Homepage = "https://gamai.io"
+Source = "https://github.com/gamai-io/crossnode-bench"
+Evidence = "https://gamai-io.github.io/demo/"
+
+# The benchmark is one module at the repository root. The data under dataset/,
+# results/ and paper/ is archive material (hundreds of MB in places) and is not
+# needed to run the benchmark, so it stays out of the wheel.
+[tool.setuptools]
+py-modules = ["crossnode"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

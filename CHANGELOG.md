@@ -2,6 +2,15 @@
 
 All notable changes to this artifact. Format: Keep a Changelog, SemVer.
 
+## [Unreleased]
+
+### Added
+- `pyproject.toml` (setuptools, `py-modules = ["crossnode"]`, `requires-python = ">=3.10"`,
+  Apache-2.0, no runtime dependencies) so the benchmark can be installed with pip instead of
+  copied: `pip install git+https://github.com/gamai-io/crossnode-bench@<sha>`. It adds the
+  `crossnode` console script (same code path as `python3 crossnode.py`); no scoring, task or
+  output changes.
+
 ## [1.7.0] - 2026-11-26
 
 Scoring correctness release: tests for the scorer and three defects they exposed. No data files

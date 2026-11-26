@@ -415,5 +415,10 @@ def main(argv: list[str]) -> int:
     return 0
 
 
+def cli() -> int:
+    """Console-script entry point (``crossnode ...`` == ``python3 crossnode.py ...``)."""
+    return main(sys.argv)
+
+
 if __name__ == "__main__":
     raise SystemExit(main(sys.argv))
