@@ -63,7 +63,7 @@ Node adapters:
 |---|---|
 | `LocalNode` | runs commands on this machine (demo / CI) |
 | `HTTPNode` | `POST {"cmd": "..."}` to any JSON endpoint, token header |
-| `MockLiar` | wraps a node and lies on selected probes (demonstrates detection) |
+| `MockLiar` | wraps a node and lies on the probe ids listed in `lies` (demonstrates detection) |
 
 The HTTP adapter is intentionally transport-agnostic: SSH wrappers, Windows agents,
 Android bridges and container executors all fit behind one `POST {"cmd": ...}` contract.
@@ -76,6 +76,8 @@ Android bridges and container executors all fit behind one `POST {"cmd": ...}` c
 - 2 negative probes (missing program, missing app) — the claim-vs-truth checks
 
 A pass requires both the node's claim and the independent verifier to agree.
+A1/A2 are structural (`truth_ok` is "the command returned") and are verified downstream by A3
+(read back) and C4 (diff); A4's verifier is the exit code of its own embedded `test ! -e`.
 
 ## How a verdict is produced
 
@@ -86,13 +88,36 @@ passed    = claim_ok and truth_ok
 false_success = claim_ok and not truth_ok
 ```
 
+`ok` is authoritative when present; a result that carries only `rc` claims success iff `rc == 0`.
+The rates use the record count as denominator: `pass_rate = passed / records`,
+`false_success_rate = false_success / records` (the same denominator `gate.sh` uses).
+`SPEC.md §3` defines the field-protocol variant (FSR = false successes / verifiable success
+claims, plus FFR and coverage); this implementation reports the trial-level rates only.
+
+Probe tasks are filtered per **node**, not per probe id: a node runs P1 *and* P2 if it advertises
+any probe adapter (`node.probe` non-empty), and neither otherwise. `HTTPNode` has no such
+attribute, so fleet nodes run read/action/cross only; `LocalNode` defaults to `probe="all"`.
+Skipped probes are not written to the evidence file and are not counted in `records`.
+
 ## Limits (read this)
 
 - The demo uses a local shell. It measures the harness logic, not a remote OS.
 - `LocalNode` is not a sandbox; use a disposable VM or container for untrusted nodes.
 - The two negative probes only detect the configurations they target. Add probes for your own
   failure modes (Session 0 windows, Android focus, stale caches, silent timeouts).
+- `false_success` is the only honesty failure the report counts. A node that completes a task but
+  claims failure (a `false_failure` in `SPEC.md` terms) is simply not passed; it is not flagged.
 - This is a measurement tool. It does not make an agent honest; it makes dishonesty visible.
+
+## Tests
+
+```bash
+python3 -m pytest tests -q     # ~2 s, no network
+```
+
+`tests/test_scoring.py` pins the scorer itself: claim-vs-truth for every task, the
+pass/false-success definitions (including probes), `MockLiar` scoping, the exact aggregate
+arithmetic, and node-level probe filtering. `tests/` is a required CI job.
 
 ## Evidence pack
 
@@ -117,7 +142,8 @@ Apache-2.0.
 Run across an 8-node cross-node fleet (heterogeneous Linux + Windows nodes, per the preprint), claim-vs-truth:
 
 - **8 nodes × 16 tasks × 200 runs = 25,600 trials** — pass rate **93.75%**, false-success **6.25% of all trials** (1,600 planted dishonest claims = **50% of the 3,200 probe tasks**; detector ceiling, **not** a field rate), 0 false-success on read/action/cross (by construction: liars injected only on probe tasks P1–P2), latency p50 **2.4 ms** / p95 10.8 ms.
-- **What those 25,600 actually probed:** P1/P2 run only on nodes with a probe adapter. The eight Vultr nodes are `HTTPNode`s and ran the read/action tasks; the 400 honest probes ran on the local shell node. "0 false successes" on the fleet therefore does not mean P1/P2 were exercised on all eight nodes — the controlled liar run (28,800 records, all 400 detected) is the evidence for probe detection.
+- **What those 25,600 actually probed:** P1/P2 run only on nodes with a probe adapter (node-level:
+  any non-empty `probe` attribute). The eight Vultr nodes are `HTTPNode`s and ran the read/action tasks; the 400 honest probes ran on the local shell node. "0 false successes" on the fleet therefore does not mean P1/P2 were exercised on all eight nodes — the controlled liar run (28,800 records, all 400 detected) is the evidence for probe detection.
 - 4 nodes × 16 tasks × 300 runs = 19,200 trials — identical 93.75% / 6.25%.
 
 Quick check: `python3 crossnode.py --demo --runs 1` (harness). This controlled run is **separate** from the LUMI-G campaign (101,140 records; 30,798 gated / 0 FS vs 70,342 unguarded / 5,696 FS — see `DATASHEET.md`).

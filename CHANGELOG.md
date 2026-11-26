@@ -2,6 +2,32 @@
 
 All notable changes to this artifact. Format: Keep a Changelog, SemVer.
 
+## [Unreleased]
+
+Scoring correctness release: tests for the scorer and three defects they exposed. No data files
+and no published numbers change (`--demo` is still 48 records, 46 passed, 2 false successes).
+
+### Added
+- `tests/test_scoring.py` (pytest, stdlib-only code under test): claim-vs-truth for every task,
+  pass/false-success definitions, probe honesty semantics, `MockLiar` scoping, exact aggregate
+  arithmetic on synthetic record sets, node-level probe filtering, and a demo end-to-end check.
+- `tests` job in `.github/workflows/ci.yml` (Python 3.10 and 3.12, < 30 s); the demo job now
+  depends on it.
+
+### Fixed
+- `MockLiar` ignored `lies` and claimed success on any command containing its probe marker, so a
+  liar configured for P1 could raise a false alarm on P2. `lies` is now authoritative and an
+  empty map never lies.
+- `judge()` derived the claim only from `result["ok"]`, so an adapter reporting just `rc` (allowed
+  by the HTTP contract and by the README's "ok / rc") was scored as refusing every task. `ok`
+  still wins when present; `rc == 0` is the fallback.
+- A4's ground truth was unconditionally `True` even though its command ends in `test ! -e`;
+  a failed assertion reported as success was scored as a pass. `truth_ok` is now `rc == 0`.
+
+### Documentation
+- README: explicit rate denominators (`passed / records`), the `ok`/`rc` claim rule, node-level
+  probe filtering (not per probe id), and the A1/A2 structural-task caveat.
+
 ## [1.6.4] - 2026-11-24
 
 Release for reproducibility requests: add the test set and the recorded configuration, change no data.

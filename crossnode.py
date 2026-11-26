@@ -94,7 +94,14 @@ class HTTPNode(Node):
 
 @dataclass
 class MockLiar(Node):
-    """Wraps a node; returns ok:true for configured probe ids even on failure.
+    """Wraps a node and claims ok:true for the probe ids listed in ``lies``.
+
+    ``lies`` maps a probe task id (``P1``/``P2``) to ``True``. Only those ids
+    are lied about; a probe id that is absent or mapped to a false value is
+    passed through untouched, so a liar configured for P1 cannot raise a false
+    alarm on P2. An empty ``lies`` means "never lie". ``probe`` is the marker
+    substring that identifies the command family to intercept; it is not by
+    itself permission to lie.
 
     This is how real fleets fail: a Windows `run` returns ok:true with a
     timeout in stderr, or an Android `open` returns ok:true with no effect.
@@ -106,11 +113,13 @@ class MockLiar(Node):
 
     def run(self, cmd: str, timeout: int = 20) -> dict:
         res = self.inner.run(cmd, timeout=timeout)
-        if self.probe and self.probe in cmd:
-            return {"ok": True, "rc": 0, "out": res.get("out", ""),
-                    "err": res.get("err", "timed out after 10 seconds"),
-                    "ms": res.get("ms", 0), "claimed": True}
-        return res
+        if not self.probe or self.probe not in cmd:
+            return res
+        if not any(self.lies.get(tid) for tid in probe_ids(cmd)):
+            return res
+        return {"ok": True, "rc": 0, "out": res.get("out", ""),
+                "err": res.get("err", "timed out after 10 seconds"),
+                "ms": res.get("ms", 0), "claimed": True}
 
 
 # -------------------------------------------------------------------- tasks
@@ -150,6 +159,11 @@ def _norm(text: Any) -> str:
     return str(text or "").strip()
 
 
+def probe_ids(cmd: str) -> list[str]:
+    """Probe task ids whose command marker appears in ``cmd`` (e.g. ["P1"])."""
+    return [t.id for t in TASKS if t.kind == "probe" and t.probe and t.probe in cmd]
+
+
 def expected(task: Task, result: dict) -> tuple[bool, str]:
     """Ground truth per task, independent of what the node claims."""
     out = _norm(result.get("out"))
@@ -170,11 +184,14 @@ def expected(task: Task, result: dict) -> tuple[bool, str]:
     if task.id == "A1":
         return True, "command returned"  # file read is verified by A3
     if task.id == "A2":
-        return True, "command returned"
+        return True, "command returned"  # copy is verified by C4
     if task.id == "A3":
         return out.replace("\n", "") == "alphaalpha", "two lines alpha"
     if task.id == "A4":
-        return True, "absence check in command"
+        # The command ends in `test ! -e`, so its exit status *is* the
+        # independent absence check; ignoring rc would score a failed
+        # assertion as a pass.
+        return rc == 0, "absence check in command (rc==0)"
     if task.id == "C2":
         return out == "nonempty", "nonempty"
     if task.id == "C3":
@@ -188,9 +205,23 @@ def expected(task: Task, result: dict) -> tuple[bool, str]:
     return False, "unknown task"
 
 
+def claimed_success(result: dict) -> bool:
+    """Did the node claim success?
+
+    `ok` is authoritative when present (README: "node said it succeeded
+    (ok / rc)"); a result that carries only `rc` claims success iff rc == 0.
+    Without this fallback an adapter that reports only an exit status — which
+    the HTTP contract permits — is scored as refusing every task.
+    """
+    ok = result.get("ok")
+    if ok is not None:
+        return bool(ok)
+    return result.get("rc") == 0
+
+
 def judge(task: Task, result: dict) -> dict:
     truth_ok, why = expected(task, result)
-    claim_ok = bool(result.get("ok"))
+    claim_ok = claimed_success(result)
     false_success = bool(claim_ok and not truth_ok)
     if task.kind == "probe":
         passed = claim_ok == truth_ok  # honesty about a negative ground truth
@@ -203,6 +234,14 @@ def judge(task: Task, result: dict) -> dict:
 # ------------------------------------------------------------------- runner
 def run_suite(nodes: list[Node], runs: int = 1, timeout: int = 20,
               outdir: str | None = None) -> dict:
+    """Run every task on every node and score it.
+
+    Probe tasks (P1/P2) are filtered per node, not per probe id: a node is
+    asked for all probe tasks if it advertises any probe adapter (`node.probe`
+    non-empty), and for none otherwise. Skipped probes are not written to the
+    evidence file and are not counted in `records`, so `records` can be lower
+    than `tasks * nodes * runs`.
+    """
     os.makedirs(WORK, exist_ok=True)
     stamp = time.strftime("%Y%m%d-%H%M%S")
     outdir = outdir or os.path.join(os.path.dirname(os.path.abspath(__file__)),
@@ -215,7 +254,9 @@ def run_suite(nodes: list[Node], runs: int = 1, timeout: int = 20,
         for rnd in range(1, runs + 1):
             for node in nodes:
                 for task in TASKS:
-                    # probes apply only to nodes that can be probed for them
+                    # Node-level probe filter (see run_suite docstring): any
+                    # non-empty `node.probe` opts the node into every probe
+                    # task; there is no per-probe-id applicability check.
                     if task.kind == "probe" and task.probe and \
                             not getattr(node, "probe", ""):
                         continue
