@@ -303,9 +303,12 @@ def run_suite(nodes: list[Node], runs: int = 1, timeout: int = 20,
         "false_success_rate": round(false_success / total, 4) if total else 0.0,
         "by_kind": by_kind,
         "latency_ms": {"p50": p50, "p95": p95},
+        # sha256 of the bytes on disk, so anyone can check it with sha256sum.
+        # (Earlier reports hashed a re-serialised payload with sort_keys=True,
+        # which does not match the file and therefore cannot be verified.)
+        "evidence_file": os.path.basename(evidence_path),
         "evidence_sha256": hashlib.sha256(
-            "\n".join(json.dumps(r, sort_keys=True) for r in records).encode()
-        ).hexdigest(),
+            open(evidence_path, "rb").read()).hexdigest(),
         "ts": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "dir": outdir,
     }
@@ -326,8 +329,8 @@ def run_suite(nodes: list[Node], runs: int = 1, timeout: int = 20,
             if r["false_success"]:
                 fh.write("- `%s` on **%s**: claimed ok, truth failed (%s) — err: `%s`\n"
                          % (r["task"], r["node"], r["why"], r["err_excerpt"]))
-        fh.write("\nEvidence: `evidence.jsonl` (sha256 of report payload: `%s`)\n"
-                 % report["evidence_sha256"])
+        fh.write("\nEvidence: `%s` (sha256 of the file: `%s`)\n"
+                 % (report["evidence_file"], report["evidence_sha256"]))
     return report
 
 
@@ -355,6 +358,37 @@ def load_config(path: str) -> list[Node]:
     return nodes
 
 
+def verify_report(report_path: str, evidence_path: str | None = None) -> dict:
+    """Check a report against the evidence file it names.
+
+    Recomputes the file hash and every count from the records, so a report that
+    was edited by hand, or paired with a different evidence file, is refused.
+    """
+    report = json.load(open(report_path, encoding="utf-8"))
+    evidence_path = evidence_path or os.path.join(
+        os.path.dirname(os.path.abspath(report_path)),
+        report.get("evidence_file") or "evidence.jsonl")
+    raw = open(evidence_path, "rb").read()
+    problems: list[str] = []
+    digest = hashlib.sha256(raw).hexdigest()
+    if report.get("evidence_sha256") and digest != report["evidence_sha256"]:
+        problems.append("evidence sha256 differs from the report")
+    records = [json.loads(line) for line in raw.decode("utf-8").splitlines() if line.strip()]
+    counts = {
+        "records": len(records),
+        "passed": sum(1 for r in records if r.get("passed")),
+        "false_success": sum(1 for r in records if r.get("false_success")),
+    }
+    for key, value in counts.items():
+        if report.get(key) != value:
+            problems.append(f"{key}: report says {report.get(key)}, evidence has {value}")
+    rate = round(counts["passed"] / counts["records"], 4) if counts["records"] else 0.0
+    if "pass_rate" in report and abs(report["pass_rate"] - rate) > 1e-9:
+        problems.append(f"pass_rate: report says {report['pass_rate']}, computed {rate}")
+    return {"ok": not problems, "problems": problems, "sha256": digest,
+            "counts": counts}
+
+
 def main(argv: list[str]) -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--demo", action="store_true", help="run local demo with lying nodes")
@@ -362,7 +396,13 @@ def main(argv: list[str]) -> int:
     ap.add_argument("--runs", type=int, default=1)
     ap.add_argument("--timeout", type=int, default=20)
     ap.add_argument("--outdir")
+    ap.add_argument("--verify-report", help="check a report.json against its evidence file")
+    ap.add_argument("--evidence", help="evidence file for --verify-report (default: from the report)")
     args = ap.parse_args(argv[1:])
+    if args.verify_report:
+        result = verify_report(args.verify_report, args.evidence)
+        print(json.dumps(result, indent=2))
+        return 0 if result["ok"] else 1
     if args.config:
         nodes = load_config(args.config)
     else:

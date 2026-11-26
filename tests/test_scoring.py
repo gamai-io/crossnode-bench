@@ -16,8 +16,12 @@ Run: python3 -m pytest tests -q
 """
 from __future__ import annotations
 
+import hashlib
 import json
+import os
 import sys
+import tempfile
+import unittest
 from pathlib import Path
 
 import pytest
@@ -400,3 +404,52 @@ def test_demo_detects_the_two_planted_lies(tmp_path):
         if json.loads(line)["false_success"]
     )
     assert flagged == [("node-b", "P1"), ("node-c", "P2")]
+
+
+class TestVerifyReport(unittest.TestCase):
+    """A report is only evidence if its hash and counts can be re-checked."""
+
+    def _run(self, outdir):
+        import crossnode
+        return crossnode.run_suite(crossnode.demo_nodes(), runs=1, outdir=str(outdir))
+
+    def test_a_fresh_report_verifies(self):
+        import crossnode
+        with tempfile.TemporaryDirectory() as td:
+            report = self._run(td)
+            result = crossnode.verify_report(os.path.join(td, "report.json"))
+        self.assertTrue(result["ok"], result["problems"])
+        self.assertEqual(result["counts"]["records"], report["records"])
+        self.assertEqual(result["counts"]["passed"], report["passed"])
+
+    def test_the_hash_is_of_the_file_on_disk(self):
+        import crossnode
+        with tempfile.TemporaryDirectory() as td:
+            self._run(td)
+            on_disk = hashlib.sha256(open(os.path.join(td, "evidence.jsonl"), "rb").read()).hexdigest()
+            report = json.load(open(os.path.join(td, "report.json"), encoding="utf-8"))
+        self.assertEqual(report["evidence_sha256"], on_disk)
+
+    def test_edited_evidence_is_refused(self):
+        import crossnode
+        with tempfile.TemporaryDirectory() as td:
+            self._run(td)
+            path = os.path.join(td, "evidence.jsonl")
+            with open(path, "a", encoding="utf-8") as fh:
+                fh.write("{}\n")
+            result = crossnode.verify_report(os.path.join(td, "report.json"))
+        self.assertFalse(result["ok"])
+        self.assertTrue(any("sha256" in p or "records" in p for p in result["problems"]),
+                        result["problems"])
+
+    def test_edited_count_is_refused(self):
+        import crossnode
+        with tempfile.TemporaryDirectory() as td:
+            self._run(td)
+            rp = os.path.join(td, "report.json")
+            report = json.load(open(rp, encoding="utf-8"))
+            report["passed"] = report["passed"] - 1
+            json.dump(report, open(rp, "w", encoding="utf-8"))
+            result = crossnode.verify_report(rp)
+        self.assertFalse(result["ok"])
+        self.assertTrue(any(p.startswith("passed") for p in result["problems"]), result["problems"])

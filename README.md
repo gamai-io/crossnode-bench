@@ -155,3 +155,20 @@ Quick check: `python3 crossnode.py --demo --runs 1` (harness). This controlled r
 - [`paper/preprint.pdf`](paper/preprint.pdf) — *Evidence-Gated Agent Execution* (preprint draft, 5 pages).
 
 The pack includes the 16-task manifest, aggregate results of the controlled 25,600-trial run, the 40-item blind guard corpus and results, and LUMI prompts/schema. Raw per-trial logs for the 25,600 controlled run **are** included (`dataset/lumi/raw/trust_evidence_25600.jsonl.gz`); the 10,000 LUMI run and the 6,900 generated guard corpus are **not** included. LUMI guarded rerun is **1/10,000 (0.01%) — FAIL**; the earlier 0/10k was not reproduced.
+
+## Verifying a published report
+
+Every new run writes `evidence_file` and `evidence_sha256` — the hash of the
+bytes on disk — and `python3 crossnode.py --verify-report <report.json>` recomputes
+that hash and every count from the records:
+
+```
+$ python3 crossnode.py --verify-report runs/<stamp>/report.json
+{"ok": true, "problems": [], "sha256": "4f8e640c…", "counts": {"records": 48, "passed": 46, "false_success": 2}}
+```
+
+Reports published before 2026-11-26 (including `results/vultr-fleet-2026-11-09-200/`)
+carry an `evidence_sha256` computed over a re-serialised payload (`sort_keys=True`),
+which does **not** match the file on disk and therefore cannot be checked with
+`sha256sum`. Their counts are still verifiable by re-running the scorer over the
+records; only the hash field is unusable. Do not treat that field as a trust anchor.
