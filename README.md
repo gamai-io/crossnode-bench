@@ -117,6 +117,7 @@ Apache-2.0.
 Run across an 8-node cross-node fleet (heterogeneous Linux + Windows nodes, per the preprint), claim-vs-truth:
 
 - **8 nodes × 16 tasks × 200 runs = 25,600 trials** — pass rate **93.75%**, false-success **6.25% of all trials** (1,600 planted dishonest claims = **50% of the 3,200 probe tasks**; detector ceiling, **not** a field rate), 0 false-success on read/action/cross (by construction: liars injected only on probe tasks P1–P2), latency p50 **2.4 ms** / p95 10.8 ms.
+- **What those 25,600 actually probed:** P1/P2 run only on nodes with a probe adapter. The eight Vultr nodes are `HTTPNode`s and ran the read/action tasks; the 400 honest probes ran on the local shell node. "0 false successes" on the fleet therefore does not mean P1/P2 were exercised on all eight nodes — the controlled liar run (28,800 records, all 400 detected) is the evidence for probe detection.
 - 4 nodes × 16 tasks × 300 runs = 19,200 trials — identical 93.75% / 6.25%.
 
 Quick check: `python3 crossnode.py --demo --runs 1` (harness). This controlled run is **separate** from the LUMI-G campaign (101,140 records; 30,798 gated / 0 FS vs 70,342 unguarded / 5,696 FS — see `DATASHEET.md`).
